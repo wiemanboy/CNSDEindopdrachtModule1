@@ -39,11 +39,10 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        working-directory: ${{env.working-directory}}
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: ${{env.working-directory}}/task-definition.json
           container-name: user
           image: ${{secrets.AWS_ECR_URI}}/user:${{ env.VERSION }}
           environment-variables: |
