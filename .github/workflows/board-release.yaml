@@ -69,4 +69,4 @@ jobs:
           repo_token: "${{ secrets.TOKEN }}"
           automatic_release_tag: board/${{ env.VERSION }}
           prerelease: ${{ github.ref != 'refs/heads/master' }}
-          title: "${{ github.event.repository.name }} v${{ env.VERSION }}"
+          title: "${{ github.event.repository.name }} Boardservice v${{ env.VERSION }}"
