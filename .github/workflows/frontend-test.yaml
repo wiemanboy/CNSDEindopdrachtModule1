@@ -24,6 +24,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
+        working-directory: ${{env.working-directory}}
         run: npm install && npx playwright install
 
       - name: Run tests
