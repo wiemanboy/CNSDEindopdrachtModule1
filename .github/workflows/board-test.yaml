@@ -1,0 +1,35 @@
+name: Run tests on board code base
+
+on:
+  pull_request:
+    paths: 'board/**'
+    branches:
+      - master
+      - release/**
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./board
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '21'
+
+      - name: Set up Maven
+        uses: s4u/maven-settings-action@v3.0.0
+
+      - name: Run tests
+        working-directory: ${{env.working-directory}}
+        run: mvn test
+
+      - name: SonarQube scan
+        working-directory: ${{env.working-directory}}
+        run: mvn sonar:sonar -Dsonar.projectKey=${{ vars.SONAR_QUBE_BOARD_PROJECT_KEY }} -Dsonar.host.url=${{ secrets.SONAR_QUBE_URL }} -Dsonar.login=${{ secrets.SONAR_QUBE_BOARD_TOKEN }}
