@@ -60,3 +60,11 @@ jobs:
                 docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                 echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT\
+
+            - name: Create release
+              uses: marvinpinto/action-automatic-releases@latest
+              with:
+                repo_token: "${{ secrets.TOKEN }}"
+                automatic_release_tag: ${{ env.VERSION }}
+                prerelease: ${{ github.ref != 'refs/heads/master' }}
+                title: "${{ github.event.repository.name }} v${{ env.VERSION }}"
