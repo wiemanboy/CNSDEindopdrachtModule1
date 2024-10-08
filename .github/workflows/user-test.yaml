@@ -1,0 +1,33 @@
+Name: Run tests on user code base
+
+on:
+  pull_request:
+    branches:
+      - master
+      - release/**
+    push:
+      paths:
+        - 'user/**'
+    workflow_dispatch:
+
+
+
+    jobs:
+      test:
+        runs-on: ubuntu-latest
+        working-directory: user
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+
+          - name: Set up JDK 21
+            uses: actions/setup-java@v4
+            with:
+              distribution: 'adopt'
+              java-version: '21'
+
+          - name: Set up Maven
+            uses: s4u/maven-settings-action@v3.0.0
+
+          - name: Run tests
+            run: mvn test
