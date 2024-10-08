@@ -1,0 +1,38 @@
+name: Run tests on frontend code base
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/**'
+    branches:
+      - master
+      - release/**
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install && npx playwright install
+
+      - name: Run tests
+        working-directory: ${{env.working-directory}}
+        run: npm test
+
+      - name: Setup SonarQube
+        uses: warchant/setup-sonar-scanner@v7
+
+      - name: SonarQube scan
+        working-directory: ${{env.working-directory}}
+        run: sonar-scanner -Dsonar.projectKey=${{ vars.SONAR_QUBE_FRONTEND_PROJECT_KEY }} -Dsonar.sources=. \ -Dsonar.host.url=${{ secrets.SONAR_QUBE_URL }} -Dsonar.login=${{ secrets.SONAR_QUBE_FRONTEND_TOKEN }}
