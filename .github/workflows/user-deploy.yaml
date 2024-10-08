@@ -40,7 +40,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: account-service-container
-          image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/user:${{ steps.set-version.outputs.VERSION }}
+          image: ${{secrets.AWS_ECR_URI}}/user:${{ steps.set-version.outputs.VERSION }}
           environment-variables: |
             SPRING_PROFILES_ACTIVE=prod
             DB_URL=${{ secrets.DEPLOYMENT_DB_URL }}
