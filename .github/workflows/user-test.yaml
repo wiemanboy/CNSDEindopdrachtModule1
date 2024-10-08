@@ -30,6 +30,4 @@ jobs:
         run: mvn test
 
       - name: SonarQube scan
-        env:
-          SONAR_QUBE_USER_PROJECT_KEY: ${{ secrets.SONAR_QUBE_USER_PROJECT_KEY }}
-        run: mvn sonar:sonar -Dsonar.projectKey= ${{SONAR_QUBE_USER_PROJECT_KEY}} -Dsonar.host.url=${{ secrets.SONAR_QUBE_URL }} -Dsonar.login=${{ secrets.SONAR_QUBE_USER_TOKEN }}
+        run: mvn sonar:sonar -Dsonar.projectKey= ${{ vars.SONAR_QUBE_USER_PROJECT_KEY }} -Dsonar.host.url=${{ secrets.SONAR_QUBE_URL }} -Dsonar.login=${{ secrets.SONAR_QUBE_USER_TOKEN }}
