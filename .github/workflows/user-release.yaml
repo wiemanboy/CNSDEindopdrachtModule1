@@ -6,12 +6,12 @@ on:
     branches:
       - release/**
       - master
-    workflow_dispatch:
-      inputs:
-        version:
-          description: 'Version of the application'
-          required: true
-          default: 'latest'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of the application'
+        required: true
+        default: 'latest'
 
 jobs:
     deploy:
