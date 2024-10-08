@@ -1,5 +1,4 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:084661144670:task-definition/user-task-definition:1",
   "containerDefinitions": [
     {
       "name": "user",
