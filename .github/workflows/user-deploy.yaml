@@ -17,6 +17,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./user
     steps:
       - uses: actions/checkout@v4
       - name: Set Version
@@ -37,6 +39,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Fill in the new image ID in the Amazon ECS task definition
+        working-directory: ${{env.working-directory}}
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
