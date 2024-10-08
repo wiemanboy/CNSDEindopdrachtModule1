@@ -1,5 +1,4 @@
-Name: Run tests on user code base
-
+name: Run tests on user code base
 on:
   pull_request:
     paths: 'user/**'
