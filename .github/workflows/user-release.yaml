@@ -2,6 +2,7 @@ name: user release
 
 on:
   release:
+    paths: 'user/**'
     types:
       - released
     branches:

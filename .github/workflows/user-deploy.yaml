@@ -1,10 +1,13 @@
 name: Deploy user
 on:
   release:
+    paths:
+      - 'user/**'
     types:
       - released
     branches:
       - release/**
+      - master
     workflow_dispatch:
       inputs:
         version:

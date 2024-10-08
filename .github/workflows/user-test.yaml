@@ -12,6 +12,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./user
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,8 +28,8 @@ jobs:
         uses: s4u/maven-settings-action@v3.0.0
 
       - name: Run tests
-        working-directory: ./user
+        working-directory: ${{env.working-directory}}
         run: mvn test
 
       - name: SonarQube scan
-        run: mvn sonar:sonar -Dsonar.projectKey= ${{ vars.SONAR_QUBE_USER_PROJECT_KEY }} -Dsonar.host.url=${{ secrets.SONAR_QUBE_URL }} -Dsonar.login=${{ secrets.SONAR_QUBE_USER_TOKEN }}
+        run: mvn sonar:sonar -Dsonar.projectKey=${{ vars.SONAR_QUBE_USER_PROJECT_KEY }} -Dsonar.host.url=${{ secrets.SONAR_QUBE_URL }} -Dsonar.login=${{ secrets.SONAR_QUBE_USER_TOKEN }}
