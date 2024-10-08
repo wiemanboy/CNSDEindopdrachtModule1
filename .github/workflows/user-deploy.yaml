@@ -1,4 +1,5 @@
 name: Deploy user
+
 on:
   release:
     paths:
@@ -27,6 +28,7 @@ jobs:
           VERSION=${{ github.event.inputs.version }}
           if [ -z "$VERSION" ]; then
             VERSION=${{ github.event.release.tag_name }}
+            VERSION=${VERSION#*/} # Extract the version number after the slash
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -44,7 +46,7 @@ jobs:
         with:
           task-definition: ${{env.working-directory}}/task-definition.json
           container-name: user
-          image: ${{secrets.AWS_ECR_URI}}/user:${{ env.VERSION }}
+          image: ${{vars.AWS_ECR_URI}}/user:${{ env.VERSION }}
           environment-variables: |
             SPRING_PROFILES_ACTIVE=prod
             DB_URL=${{ secrets.DEPLOYMENT_DB_URL }}
