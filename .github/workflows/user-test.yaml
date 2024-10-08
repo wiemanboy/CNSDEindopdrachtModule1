@@ -12,7 +12,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    working-directory: user
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,6 +26,7 @@ jobs:
         uses: s4u/maven-settings-action@v3.0.0
 
       - name: Run tests
+        working-directory: ./user
         run: mvn test
 
       - name: SonarQube scan
