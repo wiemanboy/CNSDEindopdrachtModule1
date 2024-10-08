@@ -35,49 +35,10 @@
     }
   ],
   "family": "user-task-definition",
-  "taskRoleArn": "arn:aws:iam::084661144670:role/LabRole",
   "executionRoleArn": "arn:aws:iam::084661144670:role/LabRole",
   "networkMode": "awsvpc",
-  "revision": 1,
   "volumes": [],
-  "status": "ACTIVE",
-  "requiresAttributes": [
-    {
-      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-    },
-    {
-      "name": "ecs.capability.execution-role-awslogs"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.ecr-auth"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.task-iam-role"
-    },
-    {
-      "name": "ecs.capability.execution-role-ecr-pull"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-    },
-    {
-      "name": "ecs.capability.task-eni"
-    },
-    {
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
-    }
-  ],
   "placementConstraints": [],
-  "compatibilities": [
-    "EC2",
-    "FARGATE"
-  ],
   "requiresCompatibilities": [
     "FARGATE"
   ],
@@ -87,7 +48,5 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-10-08T11:58:41.650Z",
-  "registeredBy": "arn:aws:sts::084661144670:assumed-role/voclabs/user3523730=Jochem_Nieuwenhuizen",
   "tags": []
 }
