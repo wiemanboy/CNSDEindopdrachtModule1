@@ -1,0 +1,62 @@
+name: Deploy board
+
+on:
+  release:
+    paths:
+      - 'board/**'
+    types:
+      - released
+    branches:
+      - release/**
+      - master
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of the application'
+        required: true
+        default: 'latest'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./board
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set Version
+        id: set-version
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          if [ -z "$VERSION" ]; then
+            VERSION=${{ github.event.release.tag_name }}
+            VERSION=${VERSION#*/} # Extract the version number after the slash
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{env.working-directory}}/task-definition.json
+          container-name: board
+          image: ${{vars.AWS_ECR_URI}}/user:${{ env.VERSION }}
+          environment-variables: |
+            SPRING_PROFILES_ACTIVE=prod
+            DB_URL=${{ secrets.DEPLOYMENT_DB_URL }}
+            DB_USERNAME=${{ secrets.DEPLOYMENT_DB_USERNAME }}
+            DB_PASSWORD=${{ secrets.DEPLOYMENT_DB_PASSWORD }}
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: board-service
+          cluster: task-management-cluster-deploy
+          wait-for-service-stability: false
