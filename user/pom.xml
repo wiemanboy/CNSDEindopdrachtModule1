@@ -78,6 +78,11 @@
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
 				<version>1.17.0</version>
+				<configuration>
+					<outputFormats>
+						<outputFormat>xml</outputFormat>
+					</outputFormats>
+				</configuration>
 				<executions>
 					<execution>
 						<id>pitest</id>
