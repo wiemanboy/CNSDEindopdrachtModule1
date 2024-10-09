@@ -2,7 +2,7 @@ name: Deploy user
 
 on:
   release:
-    paths:
+    tags:
       - 'user/**'
     types:
       - released

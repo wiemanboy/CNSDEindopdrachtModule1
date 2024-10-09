@@ -2,7 +2,7 @@ name: Deploy board
 
 on:
   release:
-    paths:
+    tags:
       - 'board/**'
     types:
       - released
