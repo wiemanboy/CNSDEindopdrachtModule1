@@ -1,0 +1,45 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/build:/usr/share/nginx/html
+
+  board:
+    build:
+      context: ./board
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_NAME: "board_db"
+      DB_USERNAME: "admin"
+      DB_PASSWORD: "admin"
+
+  user:
+    build:
+      context: ./user
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "prod"
+      DB_HOST: "db"
+      DB_PORT: "5432"
+      DB_NAME: "user_db"
+      DB_USERNAME: "admin"
+      DB_PASSWORD: "admin"
+
+  db:
+    build:
+      context: ./development/db
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./development/data/postgres:/var/lib/postgresql/data
