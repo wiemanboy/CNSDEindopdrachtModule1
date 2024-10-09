@@ -10,11 +10,6 @@ on:
       - release/**
       - master
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version of the application'
-        required: true
-        default: 'latest'
 
 jobs:
   release:
@@ -22,16 +17,8 @@ jobs:
     env:
       working-directory: ./frontend
     steps:
-      - uses: actions/checkout@v4
-      - name: Set Version
-        id: set-version
-        run: |
-          VERSION=${{ github.event.inputs.version }}
-          if [ -z "$VERSION" ]; then
-            VERSION=${{ github.event.release.tag_name }}
-            VERSION=${VERSION#*/} # Extract the version number after the slash
-          fi
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
