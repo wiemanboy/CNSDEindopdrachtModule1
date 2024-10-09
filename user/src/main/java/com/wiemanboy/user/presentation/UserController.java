@@ -16,32 +16,56 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    /**
+     * @param username - name of the user
+     * @return - the user
+     */
     @PostMapping("/register")
     public User registerUser(String username) {
         return userService.registerUser(username);
     }
-
+    /**
+     * Update user by UUID.
+     *
+     * @param id   the UUID
+     * @param username the name
+     * @return the user
+     */
     @PutMapping("/{id}")
     public User updateUser(@PathVariable UUID id, String username) {
         return userService.updateUser(id, username);
     }
 
+    /**
+     * Delete a user by id
+     * @param id - UUID of the user
+     */
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
     }
-
+    /**
+     * Get a user by UUID
+     * @param id - UUID of the user
+     * @return - the user
+     */
     @GetMapping("/{id}")
     public User getUser(@PathVariable UUID id) {
        return userService.getUser(id);
     }
-
+    /**
+     * Get all users
+     * @return - list of users
+     */
     @GetMapping("/")
     public List<User> getUsers() {
         return userService.getUsers();
     }
-
+    /**
+     * Check if a user exists
+     * @param id - UUID of the user
+     * @return - boolean
+     */
     @GetMapping("/{id}/exists")
     public boolean userExists(@PathVariable UUID id) {
         return userService.userExists(id);
