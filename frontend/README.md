@@ -38,7 +38,6 @@ For webstorm, you can configure this in `Settings > Tools > Actions on save`.
 │ ├─┬ lib `Used for easy access with $lib/`  
 │ │ ├── dtos  
 │ │ └── enums  
-│ ├── params `Parameter matching for use with slugs in routes`  
 │ └── routes `Pages and layouts`  
 ├── prettier.config.js  
 ├── .eslint.config.ts  
@@ -104,7 +103,7 @@ the [icon sets](https://icon-sets.iconify.design/).
 
 ## Testing
 
-This project uses [vitest](https://vitest.dev/) for unit testing and [Playwright](https://playwright.dev/) for
+This project uses [Vitest](https://vitest.dev/) for unit testing and [Playwright](https://playwright.dev/) for
 end-to-end testing.
 You can run the tests with `npm run test`, Or use `npm run test:unit` and `npm run test:integration`
 to run the tests separately.
