@@ -1,7 +1,6 @@
 package com.wiemanboy.board.builders;
 
 import com.wiemanboy.board.domain.Task;
-import com.wiemanboy.board.domain.TaskList;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 

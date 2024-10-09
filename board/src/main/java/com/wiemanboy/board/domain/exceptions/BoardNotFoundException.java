@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Getter
 public class BoardNotFoundException extends RuntimeException {
-  private final UUID boardId;
+    private final UUID boardId;
 
     public BoardNotFoundException(UUID boardId) {
         super(String.format("Board not found with id: %s", boardId));

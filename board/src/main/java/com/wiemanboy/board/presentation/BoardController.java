@@ -49,7 +49,7 @@ public class BoardController {
                 createTaskListDto.taskListId(),
                 createTaskListDto.title(),
                 createTaskListDto.description()
-                ));
+        ));
     }
 
     @PutMapping("/{boardId}/move-task")
