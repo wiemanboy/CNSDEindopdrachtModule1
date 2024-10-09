@@ -25,6 +25,8 @@ npm run dev
 npm run dev -- --open
 ```
 
+Keep in mind this app will be deployed statically so all dynamic features cannot be used.
+
 ## Building
 
 To create a production version of your app:

@@ -1,0 +1,87 @@
+package com.wiemanboy.board.application;
+
+import com.wiemanboy.board.data.BoardRepository;
+import com.wiemanboy.board.domain.Board;
+import com.wiemanboy.board.domain.Task;
+import com.wiemanboy.board.domain.TaskList;
+import com.wiemanboy.board.domain.exceptions.BoardNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@Transactional
+public class BoardService {
+
+    private final BoardRepository boardRepository;
+    private final TagService tagService;
+
+    public BoardService(BoardRepository boardRepository, TagService tagService) {
+        this.boardRepository = boardRepository;
+        this.tagService = tagService;
+    }
+
+    public Board createBoard(String name) {
+        Board board = new Board(name);
+        boardRepository.save(board);
+        return board;
+    }
+
+    public Board getBoardById(UUID boardId) {
+        return boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
+    }
+
+    public List<Board> getAllBoards() {
+        return boardRepository.findAll();
+    }
+
+    public Board addTaskList(UUID boardId, String title) {
+        Board board = getBoardById(boardId);
+
+        board.addTaskList(new TaskList(title));
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    public Board addTaskToTaskList(UUID boardId, UUID taskListId, String title, String description) {
+        Board board = getBoardById(boardId);
+
+        board.addTaskToTaskListById(taskListId, new Task(title, description));
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    public Board moveTask(UUID boardId, UUID taskId, UUID targetTaskListId) {
+        Board board = getBoardById(boardId);
+
+        board.moveTaskById(taskId, targetTaskListId);
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    public Board addTagToTask(UUID boardId, UUID taskId, UUID tagId) {
+        Board board = getBoardById(boardId);
+        Task task = board.getTaskById(taskId);
+
+        task.addTag(tagService.getTagById(tagId));
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    public Board addCollaborator(UUID boardId, UUID collaboratorId) {
+        Board board = getBoardById(boardId);
+
+        //TODO: Check if collaboratorId is valid
+
+        board.addCollaborator(collaboratorId);
+
+        boardRepository.save(board);
+        return board;
+    }
+}

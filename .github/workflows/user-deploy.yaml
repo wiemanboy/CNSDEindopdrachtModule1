@@ -1,7 +1,8 @@
 name: Deploy user
+
 on:
   release:
-    paths:
+    tags:
       - 'user/**'
     types:
       - released
@@ -17,6 +18,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./user
     steps:
       - uses: actions/checkout@v4
       - name: Set Version
@@ -25,6 +28,7 @@ jobs:
           VERSION=${{ github.event.inputs.version }}
           if [ -z "$VERSION" ]; then
             VERSION=${{ github.event.release.tag_name }}
+            VERSION=${VERSION#*/} # Extract the version number after the slash
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -40,9 +44,9 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: ${{env.working-directory}}/task-definition.json
           container-name: user
-          image: ${{secrets.AWS_ECR_URI}}/user:${{ env.VERSION }}
+          image: ${{vars.AWS_ECR_URI}}/user:${{ env.VERSION }}
           environment-variables: |
             SPRING_PROFILES_ACTIVE=prod
             DB_URL=${{ secrets.DEPLOYMENT_DB_URL }}
@@ -55,4 +59,4 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: user-service
           cluster: task-management-cluster-deploy
-          wait-for-service-stability: true
+          wait-for-service-stability: false

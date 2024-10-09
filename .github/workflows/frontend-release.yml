@@ -1,0 +1,48 @@
+name: Frontend release
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+    branches:
+      - release/**
+      - master
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of the application'
+        required: true
+        default: 'latest'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set version
+        id: set-version
+        run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+
+      - name: Install jq
+        if: github.event.inputs.version == ''
+        run: sudo apt-get install jq
+
+      - name: Get version from package.json
+        working-directory: ${{env.working-directory}}
+        if: github.event.inputs.version == ''
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "Version: $VERSION"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Create release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          automatic_release_tag: frontend/${{ env.VERSION }}
+          prerelease: ${{ github.ref != 'refs/heads/master' }}
+          title: "${{ github.event.repository.name }} Frontend v${{ env.VERSION }}"

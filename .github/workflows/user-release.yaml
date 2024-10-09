@@ -67,6 +67,6 @@ jobs:
               uses: marvinpinto/action-automatic-releases@latest
               with:
                 repo_token: "${{ secrets.TOKEN }}"
-                automatic_release_tag: ${{ env.VERSION }}
+                automatic_release_tag: user/${{ env.VERSION }}
                 prerelease: ${{ github.ref != 'refs/heads/master' }}
-                title: "${{ github.event.repository.name }} v${{ env.VERSION }}"
+                title: "${{ github.event.repository.name }} User v${{ env.VERSION }}"
