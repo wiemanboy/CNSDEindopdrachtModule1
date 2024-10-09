@@ -27,4 +27,15 @@ class TaskListTest {
 
         assertEquals(0, taskList.getTasks().size());
     }
+
+    @Test
+    @Description("Test if a task can be retrieved by its id")
+    void getTaskById() {
+        Task task = new TaskBuilder().build();
+        TaskList taskList = new TaskListBuilder().build();
+
+        taskList.addTask(task);
+
+        assertEquals(task, taskList.getTaskById(task.getId()));
+    }
 }
