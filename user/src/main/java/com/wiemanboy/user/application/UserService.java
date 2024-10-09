@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -25,7 +26,7 @@ public class UserService {
     public void deleteUser(UUID id) {
         userRepository.deleteById(id);
     }
-    @Transactional
+
     public User updateUser(UUID id, String username) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setUsername(username);

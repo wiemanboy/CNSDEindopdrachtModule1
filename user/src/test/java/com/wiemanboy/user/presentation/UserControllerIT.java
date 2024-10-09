@@ -24,6 +24,8 @@ class UserControllerIT {
 
     private User savedUser;
 
+    private final String baseUrl = "/api/users/";
+
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
@@ -38,36 +40,36 @@ class UserControllerIT {
 
     @Test
     void registerUser() {
-        ResponseEntity<User> response = restTemplate.postForEntity("/users/register?username=Henk", null, User.class);
+        ResponseEntity<User> response = restTemplate.postForEntity(baseUrl + "register?username=Henk", null, User.class);
         assertEquals("Henk", Objects.requireNonNull(response.getBody()).getUsername());
     }
 
     @Test
     void updateUser() {
-        ResponseEntity<User> response = restTemplate.exchange("/users/" + savedUser.getId() + "?username=Jake", HttpMethod.PUT, null, User.class);
+        ResponseEntity<User> response = restTemplate.exchange(baseUrl + savedUser.getId() + "?username=Jake", HttpMethod.PUT, null, User.class);
         assertEquals("Jake", Objects.requireNonNull(response.getBody()).getUsername());
     }
 
     @Test
     void deleteUser() {
-        restTemplate.delete("/users/" + savedUser.getId());
+        restTemplate.delete(baseUrl + savedUser.getId());
         assertFalse(userRepository.existsById(savedUser.getId()));
     }
 
     @Test
     void getUser() {
-        ResponseEntity<User> response = restTemplate.getForEntity("/users/" + savedUser.getId(), User.class);
+        ResponseEntity<User> response = restTemplate.getForEntity(baseUrl + savedUser.getId(), User.class);
         assertEquals("John", Objects.requireNonNull(response.getBody()).getUsername());
     }
 
     @Test
     void getUsers() {
-        ResponseEntity<User[]> response = restTemplate.getForEntity("/users/", User[].class);
+        ResponseEntity<User[]> response = restTemplate.getForEntity(baseUrl , User[].class);
         assertEquals(2, Objects.requireNonNull(response.getBody()).length);
     }
 
     @Test
     void userExists() {
-        assertTrue(restTemplate.getForObject("/users/" + savedUser.getId() + "/exists" , Boolean.class));
+        assertTrue(restTemplate.getForObject(baseUrl + savedUser.getId() + "/exists" , Boolean.class));
     }
 }
