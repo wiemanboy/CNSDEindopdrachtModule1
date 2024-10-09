@@ -2,20 +2,30 @@ package com.wiemanboy.board.domain;
 
 import com.wiemanboy.board.domain.exceptions.TaskListNotFoundException;
 import com.wiemanboy.board.domain.exceptions.TaskNotFoundException;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 @Getter
 public class Board extends DatabaseObject {
-    private final String title;
+    private String title;
+    @ElementCollection
     private final List<UUID> collaboratorIds = new ArrayList<>();
+    @OneToMany
     private final List<TaskList> taskLists = new ArrayList<>();
 
     public Board(String title) {
         this.title = title;
+    }
+
+    protected Board() {
     }
 
     public void moveTask(Task task, TaskList targetTaskList) {

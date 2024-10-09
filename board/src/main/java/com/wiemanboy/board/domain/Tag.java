@@ -1,18 +1,23 @@
 package com.wiemanboy.board.domain;
 
 import com.wiemanboy.board.domain.exceptions.InvalidHexCodeException;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 
 import java.util.regex.Pattern;
 
+@Entity
 @Getter
 public class Tag extends DatabaseObject {
-    private final String name;
+    private String name;
     private String color;
 
     public Tag(String name, String color) {
         this.name = name;
         setColor(color);
+    }
+
+    protected Tag() {
     }
 
     public void setColor(String color) {

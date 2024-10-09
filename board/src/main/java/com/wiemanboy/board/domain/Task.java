@@ -1,21 +1,30 @@
 package com.wiemanboy.board.domain;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 @Getter
 public class Task extends DatabaseObject {
-    private final String title;
-    private final String description;
+    private String title;
+    private String description;
+    @ElementCollection
     private final List<UUID> collaboratorIds = new ArrayList<>();
+    @OneToMany
     private final List<Tag> tags = new ArrayList<>();
 
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    protected Task() {
     }
 
     public void addTag(Tag tag) {
