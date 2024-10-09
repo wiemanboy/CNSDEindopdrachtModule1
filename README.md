@@ -6,6 +6,15 @@
 [![User release](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-release.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-release.yaml)
 [![Deploy user](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-deploy.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-deploy.yaml)
 
+[![Run tests on board code base](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/board-test.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/board-test.yaml)
+[![Board release](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/board-release.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/board-release.yaml)
+[![Deploy board](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/board-deploy.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/board-deploy.yaml)
+
+[![Run tests on frontend code base](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-test.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-test.yaml)
+[![Frontend release](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-release.yml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-release.yml)
+[![Deploy frontend](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-deploy.yml)
+
+
 # Tabel van requirements
 
 | **Categorie**                                                                                 | **Eisen**                                                                                                                                                                               | **Prioriteit** |
