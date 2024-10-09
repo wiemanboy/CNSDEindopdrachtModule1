@@ -2,8 +2,8 @@ name: Deploy frontend
 
 on:
   release:
-    paths:
-      - 'board/**'
+    tags:
+      - 'frontend/**'
     types:
       - released
     branches:
