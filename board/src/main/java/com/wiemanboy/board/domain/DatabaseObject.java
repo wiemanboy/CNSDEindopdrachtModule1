@@ -1,5 +1,6 @@
 package com.wiemanboy.board.domain;
 
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class DatabaseObject {
     @Id
     @Setter
+    @GeneratedValue
     private UUID id;
     @Version
     private Long version;

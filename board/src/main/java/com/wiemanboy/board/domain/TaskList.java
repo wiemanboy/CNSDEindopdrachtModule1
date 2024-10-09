@@ -1,7 +1,9 @@
 package com.wiemanboy.board.domain;
 
 import com.wiemanboy.board.domain.exceptions.TaskNotFoundException;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 
@@ -13,7 +15,7 @@ import java.util.UUID;
 @Getter
 public class TaskList extends DatabaseObject {
     private String title;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private final List<Task> tasks = new ArrayList<>();
 
     public TaskList(String title) {

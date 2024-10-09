@@ -1,8 +1,6 @@
 package com.wiemanboy.board.domain;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ public class Task extends DatabaseObject {
     private String description;
     @ElementCollection
     private final List<UUID> collaboratorIds = new ArrayList<>();
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private final List<Tag> tags = new ArrayList<>();
 
     public Task(String title, String description) {

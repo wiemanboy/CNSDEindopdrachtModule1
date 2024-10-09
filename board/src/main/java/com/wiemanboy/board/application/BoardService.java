@@ -24,7 +24,9 @@ public class BoardService {
     }
 
     public Board createBoard(String name) {
-        return boardRepository.save(new Board(name));
+        Board board = new Board(name);
+        boardRepository.save(board);
+        return board;
     }
 
     public Board getBoardById(UUID boardId) {
@@ -36,7 +38,7 @@ public class BoardService {
     }
 
     public Board addTaskList(UUID boardId, String title) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
+        Board board = getBoardById(boardId);
 
         board.addTaskList(new TaskList(title));
 
@@ -45,7 +47,7 @@ public class BoardService {
     }
 
     public Board addTaskToTaskList(UUID boardId, UUID taskListId, String title, String description) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
+        Board board = getBoardById(boardId);
 
         board.addTaskToTaskListById(taskListId, new Task(title, description));
 
@@ -54,7 +56,7 @@ public class BoardService {
     }
 
     public Board moveTask(UUID boardId, UUID taskId, UUID targetTaskListId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
+        Board board = getBoardById(boardId);
 
         board.moveTaskById(taskId, targetTaskListId);
 
@@ -63,7 +65,7 @@ public class BoardService {
     }
 
     public Board addTagToTask(UUID boardId, UUID taskId, UUID tagId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
+        Board board = getBoardById(boardId);
         Task task = board.getTaskById(taskId);
 
         task.addTag(tagService.getTagById(tagId));
@@ -73,7 +75,7 @@ public class BoardService {
     }
 
     public Board addCollaborator(UUID boardId, UUID collaboratorId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
+        Board board = getBoardById(boardId);
 
         //TODO: Check if collaboratorId is valid
 
