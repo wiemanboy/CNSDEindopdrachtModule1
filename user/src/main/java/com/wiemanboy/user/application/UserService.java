@@ -40,7 +40,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public boolean userExists(UUID id) {
+    public Boolean userExists(UUID id) {
         return userRepository.existsById(id);
     }
 }

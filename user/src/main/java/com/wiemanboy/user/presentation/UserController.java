@@ -66,8 +66,8 @@ public class UserController {
      * @param id - UUID of the user
      * @return - boolean
      */
-    @GetMapping("/{id}/exists")
-    public boolean userExists(@PathVariable UUID id) {
+    @GetMapping(value = "/{id}/exists")
+    public Boolean userExists(@PathVariable UUID id) {
         return userService.userExists(id);
     }
 }
