@@ -17,10 +17,12 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final TagService tagService;
+    private final UserService userService;
 
-    public BoardService(BoardRepository boardRepository, TagService tagService) {
+    public BoardService(BoardRepository boardRepository, TagService tagService, UserService userService) {
         this.boardRepository = boardRepository;
         this.tagService = tagService;
+        this.userService = userService;
     }
 
     public Board createBoard(String name) {
@@ -77,7 +79,7 @@ public class BoardService {
     public Board addCollaborator(UUID boardId, UUID collaboratorId) {
         Board board = getBoardById(boardId);
 
-        //TODO: Check if collaboratorId is valid
+        userService.validateUser(collaboratorId);
 
         board.addCollaborator(collaboratorId);
 
