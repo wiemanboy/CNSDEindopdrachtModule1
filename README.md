@@ -68,9 +68,9 @@
 |                                                                                               | SonarQube Quality Gate is passed (e.g. Codecoverage >80%)                                                                                                                               | COULD          | ✔️         |
 |                                                                                               | Mutation testing toegepast                                                                                                                                                              | COULD          | ✔️         |
 | **Kennis van cloud- en container architecturen (10%)**                                        | Logische opdeling in microservices gemaakt (minimaal 2 services)                                                                                                                        | MUST           | ✔️         |
-|                                                                                               | Logical view beschreven (Domein model en context)                                                                                                                                       | MUST           | ❌          |
-|                                                                                               | Development view beschreven (component- en package diagrammen of C4)                                                                                                                    | MUST           | ❌          |
-|                                                                                               | Deployment view met AWS cloud deployment diagram beschreven                                                                                                                             | MUST           | ❌          |
+|                                                                                               | Logical view beschreven (Domein model en context)                                                                                                                                       | MUST           | ✔️         |
+|                                                                                               | Development view beschreven (component- en package diagrammen of C4)                                                                                                                    | MUST           | ✔️         |
+|                                                                                               | Deployment view met AWS cloud deployment diagram beschreven                                                                                                                             | MUST           | ✔️         |
 |                                                                                               | AWS en benodigde services correct toegepast                                                                                                                                             | MUST           | ✔️         |
 |                                                                                               | Scenario view beschreven (use-case diagram)                                                                                                                                             | SHOULD         | ❌          |
 |                                                                                               | Process view beschreven (system sequence diagram)                                                                                                                                       | SHOULD         | ❌          |
@@ -95,7 +95,11 @@
 
 ## Component diagram
 
+### Board
+
 ![Component diagram board](./diagrams/5-5_Eindopdracht-COMPONENT_DIAGRAM_BOARD.drawio.svg)
+
+### User
 
 ![Component diagram user](./diagrams/5-5_Eindopdracht-COMPONENT_DIAGRAM_USER.drawio.svg)
 
