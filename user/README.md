@@ -1,8 +1,3 @@
-This is a readme for the user microservice. :)
+This is a readme for the user microservice.
 
-## Endpoints
-- GET /user
-- POST /user
-- PUT /user
-- DELETE /user
-```
+Swagger is also available at '/api/users/docs' for checking the API documentation.
