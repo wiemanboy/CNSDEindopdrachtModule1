@@ -1,13 +1,9 @@
 <script>
-	import '../app.scss';
+	import "../app.scss";
 </script>
 
-<div class="app">
+<div class="bg-themed min-h-screen">
 	<main>
 		<slot />
 	</main>
-
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
 </div>
