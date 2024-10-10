@@ -3,7 +3,7 @@ name: Deploy board
 on:
   release:
     tags:
-      - 'board/**'
+      - board/**
     types:
       - released
     branches:
