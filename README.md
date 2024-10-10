@@ -3,6 +3,12 @@
 - Jarno Wieman
 - Jochem Nieuwenhuizen
 
+## Frontend
+
+[Frontend bucket](http://jochem-task-management-website.s3-website-us-east-1.amazonaws.com/)
+
+## CI/CD Pipelines
+
 [![Run tests on user code base](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-test.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-test.yaml)
 [![User release](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-release.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-release.yaml)
 [![Deploy user](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-deploy.yaml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/user-deploy.yaml)
