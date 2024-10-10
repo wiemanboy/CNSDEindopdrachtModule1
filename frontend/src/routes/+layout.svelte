@@ -3,7 +3,5 @@
 </script>
 
 <div class="bg-themed min-h-screen">
-	<main>
-		<slot />
-	</main>
+	<slot />
 </div>
