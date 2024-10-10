@@ -2,13 +2,16 @@
 	import { container } from "$lib/index";
 	import type UserRepository from "$lib/data/user/UserRepository";
 	import types from "$lib/types";
+	import { userStore } from "$lib/store/store";
+	import { goto } from "$app/navigation";
 
 	const userRepository = container.get<UserRepository>(types.userRepository);
 
-	function handleSubmit(event: Event) {
+	async function handleSubmit(event: Event) {
 		event.preventDefault();
-		userRepository.registerUser(username);
-		//TODO: Redirect to the next page
+		const user = await userRepository.registerUser(username);
+		userStore.set(user);
+		goto("/boards");
 	}
 
 	let username = "";

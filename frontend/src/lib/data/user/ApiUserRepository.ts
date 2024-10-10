@@ -22,7 +22,7 @@ class ApiUserRepository implements UserRepository {
 		return result.json();
 	}
 
-	async registerUser(username: string): Promise<void> {
+	async registerUser(username: string): Promise<UserDto> {
 		const result = await this.apiClient.post(`${this.baseUrl}/`, undefined, { username: username});
 		return result.json();
 	}
