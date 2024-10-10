@@ -32,15 +32,20 @@ For webstorm, you can configure this in `Settings > Tools > Actions on save`.
 ## Project structure
 
 ```markdown
-├── locales `Locales json for i18n`  
 │─┬ src  
 │ ├── components `Reusable components`  
 │ ├─┬ lib `Used for easy access with $lib/`  
+│ │ ├── network `Network related code (like fetching data)`  
+│ │ ├── data `Repository pattern for accessing and manipulating data`  
 │ │ ├── dtos  
-│ │ └── enums  
+│ │ ├── enums  
+│ │ └── types.ts `Shared types for DI`  
+│ ├── params `Parameter matching for use with slugs in routes`  
 │ └── routes `Pages and layouts`  
+├── .env.example  
 ├── prettier.config.js  
 ├── .eslint.config.ts  
+├── inversify.config.ts `Used for DI bindings`  
 ├── playwright.config.ts  
 ├── svelte.config.js  
 ├── tailwind.config.ts `Color definitions`  
