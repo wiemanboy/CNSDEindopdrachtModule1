@@ -1,8 +1,8 @@
 name: Deploy user
 
 on:
-  push:
-    tags:
+  release:
+    paths:
       - 'user/**'
     branches:
       - release/**

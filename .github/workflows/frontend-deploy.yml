@@ -1,8 +1,8 @@
 name: Deploy frontend
 
 on:
-  push:
-    tags:
+  release:
+    paths:
       - 'frontend/**'
     branches:
       - release/**
