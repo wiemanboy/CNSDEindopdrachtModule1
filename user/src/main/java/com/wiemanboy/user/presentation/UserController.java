@@ -20,7 +20,7 @@ public class UserController {
      * @param username - name of the user
      * @return - the user
      */
-    @PostMapping("/register")
+    @PostMapping("/")
     public User registerUser(String username) {
         return userService.registerUser(username);
     }

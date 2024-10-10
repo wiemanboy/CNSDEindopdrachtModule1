@@ -40,7 +40,7 @@ class UserControllerIT {
 
     @Test
     void registerUser() {
-        ResponseEntity<User> response = restTemplate.postForEntity(baseUrl + "register?username=Henk", null, User.class);
+        ResponseEntity<User> response = restTemplate.postForEntity(baseUrl + "?username=Henk", null, User.class);
         assertEquals("Henk", Objects.requireNonNull(response.getBody()).getUsername());
     }
 
