@@ -78,3 +78,8 @@
 | **Kennis van cloud infrastructuur en kosten (5%)**                                            | README.MD in de git repo beschrijft het project en bevat verwijzingen naar alle relevante onderdelen                                                                                    | MUST           | ❌          |
 |                                                                                               | Security Groups correct toegepast (met least privilege principle)                                                                                                                       | SHOULD         | ✔️         |
 |                                                                                               | Kosten zijn beheerst en niet uit budget gelopen                                                                                                                                         | SHOULD         | ✔️         |
+
+# Diagrammen
+
+## Domein model
+
