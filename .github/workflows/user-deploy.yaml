@@ -1,11 +1,9 @@
 name: Deploy user
 
 on:
-  release:
+  push:
     tags:
       - user/**
-    types:
-      - released
     branches:
       - release/**
       - master
