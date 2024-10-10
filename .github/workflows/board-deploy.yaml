@@ -2,11 +2,8 @@ name: Deploy board
 
 on:
   release:
-    paths:
-      - 'board/**'
-    branches:
-      - release/**
-      - master
+    types:
+      - released
   workflow_dispatch:
     inputs:
       version:
@@ -15,6 +12,7 @@ on:
         default: 'latest'
 jobs:
   deploy:
+    if: startsWith(github.ref, 'refs/tags/board/')
     runs-on: ubuntu-latest
     env:
       working-directory: ./board
