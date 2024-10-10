@@ -5,7 +5,7 @@ export default interface UserRepository {
 
 	getAllUsers(): Promise<UserDto[]>;
 
-	userExists(id: number): Promise<boolean>;
+	userExists(id: string): Promise<boolean>;
 
 	registerUser(username: string): Promise<void>;
 }
