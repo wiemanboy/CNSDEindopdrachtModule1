@@ -1,9 +1,10 @@
 {
 	"name": "frontend",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"build:preview": "npm run build && npm run preview",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -41,6 +42,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-static": "^3.0.5"
+		"@sveltejs/adapter-static": "^3.0.5",
+		"inversify": "^6.0.2",
+		"reflect-metadata": "^0.2.2"
 	}
 }

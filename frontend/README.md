@@ -101,6 +101,77 @@ the [icon sets](https://icon-sets.iconify.design/).
 
 ---
 
+### Dependency injection and containers
+
+This project makes use of dependency injection with the help of [InversifyJS](https://www.npmjs.com/package/inversify).
+
+#### Binding
+
+Before we can use an object, we need to bind it to a type in the `inversify.config.ts` file.
+
+First define a type in the `types.ts` file:
+
+```ts
+const types = {
+	classType: Symbol.for("ClassType"),
+};
+```
+
+Then bind the type to an implementation in the `inversify.config.ts` file:
+
+```ts
+import { container } from "./inversify.config";
+
+container.bind(types.classType).to(ClassImplementation);
+// or
+container.bind(types.classType).toConstantValue(new ClassImplementation());
+```
+
+#### Usage
+
+```ts
+const class = container.get<Class>(types.classType);
+```
+
+---
+
+### Data fetching
+
+For interacting with API data the application uses a repository pattern. This is to allow for easy mocking of data in
+tests and a better structure. Repositories are defined in the `lib/data` directory and use the aforementioned DI.
+
+#### Structure
+
+```ts
+interface ExampleRepository {
+	getExample(): Promise<ExampleDto>;
+}
+```
+
+It is recommended to use a DTO (Data Transfer Object) for the data returned from the API. A standard implementation of
+the repository would look like this:
+
+```ts
+class FetchExampleRepository implements ExampleRepository {
+
+	private apiClient: ApiClient;
+
+	constructor(apiClient: ApiClient) {
+		this.apiClient = apiClient;
+	}
+
+	async getExample(): Promise<ExampleDto> {
+		const result = await this.apiClient.get<ExampleDto>("/example");
+		return result.json();
+	}
+}
+```
+
+Here an `ApiClient` can be used to make network requests.  
+After the repository is created, it should be bound and used like described in the [DI section](#dependency-injection-and-containers).
+
+---
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for unit testing and [Playwright](https://playwright.dev/) for
