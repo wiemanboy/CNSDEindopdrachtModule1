@@ -1,7 +1,7 @@
 import type UserDto from "$lib/dtos/user/UserDto";
 
 export default interface UserRepository {
-	getUser(id: number): Promise<UserDto>;
+	getUser(id: string): Promise<UserDto>;
 
 	getAllUsers(): Promise<UserDto[]>;
 

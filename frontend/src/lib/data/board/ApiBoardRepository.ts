@@ -44,7 +44,7 @@ class ApiBoardRepository implements BoardRepository {
 		return result.json();
 	}
 
-	async getBoard(id: number): Promise<BoardDto> {
+	async getBoard(id: string): Promise<BoardDto> {
 		const result = await this.apiClient.get(`${this.baseUrl}/${id}`);
 		return result.json();
 	}

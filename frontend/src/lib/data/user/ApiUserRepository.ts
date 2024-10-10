@@ -17,7 +17,7 @@ class ApiUserRepository implements UserRepository {
 		return result.json();
 	}
 
-	async getUser(id: number): Promise<UserDto> {
+	async getUser(id: string): Promise<UserDto> {
 		const result = await this.apiClient.get(`${this.baseUrl}/${id}`);
 		return result.json();
 	}

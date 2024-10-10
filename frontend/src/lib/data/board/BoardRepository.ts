@@ -1,7 +1,7 @@
 import type BoardDto from "$lib/dtos/board/BoardDto";
 
 export default interface BoardRepository {
-	getBoard(id: number): Promise<BoardDto>;
+	getBoard(id: string): Promise<BoardDto>;
 
 	getBoards(): Promise<BoardDto[]>;
 
