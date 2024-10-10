@@ -23,12 +23,15 @@ class BoardServiceTest {
     private BoardRepository boardRepository;
     private TagService tagService;
     private BoardService boardService;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
         boardRepository = Mockito.mock(BoardRepository.class);
         tagService = Mockito.mock(TagService.class);
-        boardService = new BoardService(boardRepository, tagService);
+        userService = Mockito.mock(UserService.class);
+        Mockito.when(userService.validateUser(Mockito.any())).thenReturn(true);
+        boardService = new BoardService(boardRepository, tagService, userService);
     }
 
     @Test
