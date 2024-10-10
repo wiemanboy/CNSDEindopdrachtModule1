@@ -26,4 +26,4 @@ jobs:
 
       - name: Deploy to bucket
         working-directory: ${{env.working-directory}}
-        run: aws s3 sync ./ s3://${{vars.DEPLOY_BUCKET}} --delete
+        run: npm run build && aws s3 sync ./build s3://${{vars.DEPLOY_BUCKET}} --delete
