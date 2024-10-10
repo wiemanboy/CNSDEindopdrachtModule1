@@ -1,9 +1,11 @@
 name: Deploy frontend
 
 on:
-  create:
+  release:
     tags:
-      - 'frontend/**'
+      - 'frontend/*'
+    types:
+      - released
     branches:
       - release/**
       - master
