@@ -20,8 +20,8 @@ services:
       DB_USERNAME: "admin"
       DB_PASSWORD: "admin"
       USER_BASE_URL: "http://user:8080/api/users" # Uses internal port of user service
-      CORS_ALLOWED_ORIGINS: "*"
-      CORS_ALLOWED_METHODS: "*"
+      CORS_ALLOWED_ORIGINS: "http://localhost:5173,http://localhost:4173,http://localhost"
+      CORS_ALLOWED_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
       CORS_ALLOWED_HEADERS: "*"
       CORS_ALLOW_CREDENTIALS: "true"
 
@@ -37,8 +37,8 @@ services:
       DB_NAME: "user_db"
       DB_USERNAME: "admin"
       DB_PASSWORD: "admin"
-      CORS_ALLOWED_ORIGINS: "*"
-      CORS_ALLOWED_METHODS: "*"
+      CORS_ALLOWED_ORIGINS: "http://localhost:5173,http://localhost:4173,http://localhost"
+      CORS_ALLOWED_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
       CORS_ALLOWED_HEADERS: "*"
       CORS_ALLOW_CREDENTIALS: "true"
 
