@@ -52,6 +52,11 @@ jobs:
             DB_NAME=userdatabase
             DB_USERNAME=${{ secrets.DEPLOYMENT_DB_USERNAME }}
             DB_PASSWORD=${{ secrets.DEPLOYMENT_DB_PASSWORD }}
+            USER_BASE_URL=${{ vars.USER_BASE_URL }}
+            CORS_ALLOWED_ORIGINS=${{ vars.CORS_ALLOWED_ORIGINS }}
+            CORS_ALLOWED_METHODS="GET,POST,PUT,DELETE,OPTIONS"
+            CORS_ALLOWED_HEADERS=*
+            CORS_ALLOW_CREDENTIALS=true
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
