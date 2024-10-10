@@ -12,7 +12,7 @@ on:
         default: 'latest'
 jobs:
   deploy:
-    if: startsWith(github.ref, 'refs/tags/board/')
+    if: startsWith(github.ref, 'refs/tags/board/') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     env:
       working-directory: ./board
