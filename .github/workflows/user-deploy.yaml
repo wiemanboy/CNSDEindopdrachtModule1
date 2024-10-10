@@ -3,7 +3,7 @@ name: Deploy user
 on:
   push:
     tags:
-      - user/**
+      - 'user/**'
     branches:
       - release/**
       - master

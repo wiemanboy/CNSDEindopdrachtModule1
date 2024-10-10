@@ -3,7 +3,7 @@ name: Deploy board
 on:
   push:
     tags:
-      - board/**
+      - 'board/**'
     branches:
       - release/**
       - master
