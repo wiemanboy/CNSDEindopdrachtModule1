@@ -2,11 +2,10 @@ name: Deploy user
 
 on:
   release:
-    paths:
-      - 'user/**'
-    branches:
-      - release/**
-      - master
+    types:
+      - released
+    workflows:
+      - "user-release"
   workflow_dispatch:
     inputs:
       version:
@@ -15,6 +14,7 @@ on:
         default: 'latest'
 jobs:
   deploy:
+    if: startsWith(github.ref, 'refs/tags/user/')
     runs-on: ubuntu-latest
     env:
       working-directory: ./user
