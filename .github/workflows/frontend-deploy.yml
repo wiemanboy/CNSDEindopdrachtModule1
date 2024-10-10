@@ -1,9 +1,9 @@
 name: Deploy frontend
 
 on:
-  push:
+  create:
     tags:
-      - frontend/**
+      - 'frontend/**'
     branches:
       - release/**
       - master
