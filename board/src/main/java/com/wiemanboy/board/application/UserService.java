@@ -1,6 +1,8 @@
 package com.wiemanboy.board.application;
 
+import java.util.UUID;
+
 public interface UserService {
 
-    Boolean validateUser(String id);
+    Boolean validateUser(UUID id);
 }

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @Service
 public class UserServiceImplementation implements UserService {
     @Value("${user.baseURL}")
@@ -16,7 +18,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public Boolean validateUser(String id) {
-        return restTemplate.getForObject(url + id, Boolean.class);
+    public Boolean validateUser(UUID id) {
+        return restTemplate.getForObject(url + id + "/exists" , Boolean.class);
     }
 }
