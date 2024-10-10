@@ -19,6 +19,7 @@ services:
       DB_NAME: "board_db"
       DB_USERNAME: "admin"
       DB_PASSWORD: "admin"
+      USER_BASE_URL: "http://user:8080/api/users" # Uses internal port of user service
 
   user:
     build:
