@@ -45,6 +45,7 @@ jobs:
           image: ${{vars.AWS_ECR_URI}}/board:${{ env.VERSION }}
           environment-variables: |
             SPRING_PROFILES_ACTIVE=prod
+            user.baseURL=${{ vars.API_BASE_URL  }}/api/users
             DB_HOST=${{ secrets.DEPLOYMENT_DB_HOST }}
             DB_PORT=${{ secrets.DEPLOYMENT_DB_PORT }}
             DB_NAME=boarddatabase
