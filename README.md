@@ -83,3 +83,23 @@
 
 ## Domein model
 
+![Domein model](./diagrams/5-5_Eindopdracht-DOMEINMODEL.drawio.svg)
+
+## Context diagram
+
+![Context diagram](./diagrams/5-5_Eindopdracht-CONTEXT_DIAGRAM.drawio.svg)
+
+## Container diagram
+
+![Container diagram](./diagrams/5-5_Eindopdracht-CONTAINER_DIAGRAM.drawio.svg)
+
+## Component diagram
+
+![Component diagram board](./diagrams/5-5_Eindopdracht-COMPONENT_DIAGRAM_BOARD.drawio.svg)
+
+![Component diagram user](./diagrams/5-5_Eindopdracht-COMPONENT_DIAGRAM_USER.drawio.svg)
+
+## Deployment diagram
+
+![Deployment diagram](./diagrams/5-5_Eindopdracht-DEPLOYMENT_DIAGRAM.drawio.svg)
+
