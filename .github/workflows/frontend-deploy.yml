@@ -24,7 +24,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Install Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -36,3 +36,5 @@ jobs:
       - name: Deploy to bucket
         working-directory: ${{env.working-directory}}
         run: npm run build && aws s3 sync ./build s3://${{vars.DEPLOY_BUCKET}} --delete
+        env:
+          PUBLIC_API_BASE_URL: ${{ env.API_BASE_URL }}
