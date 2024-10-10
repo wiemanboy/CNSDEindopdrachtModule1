@@ -1,11 +1,9 @@
 name: Deploy board
 
 on:
-  release:
+  push:
     tags:
       - board/**
-    types:
-      - released
     branches:
       - release/**
       - master
