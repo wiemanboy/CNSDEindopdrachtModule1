@@ -3,7 +3,7 @@ name: Deploy frontend
 on:
   release:
     tags:
-      - 'frontend/**'
+      - frontend/**
     types:
       - released
     branches:

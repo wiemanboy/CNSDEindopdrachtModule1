@@ -3,7 +3,7 @@ name: Deploy user
 on:
   release:
     tags:
-      - 'user/**'
+      - user/**
     types:
       - released
     branches:
