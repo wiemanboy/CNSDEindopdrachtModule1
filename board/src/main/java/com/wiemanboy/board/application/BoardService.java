@@ -5,6 +5,7 @@ import com.wiemanboy.board.domain.Board;
 import com.wiemanboy.board.domain.Task;
 import com.wiemanboy.board.domain.TaskList;
 import com.wiemanboy.board.domain.exceptions.BoardNotFoundException;
+import com.wiemanboy.board.domain.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +80,9 @@ public class BoardService {
     public Board addCollaborator(UUID boardId, UUID collaboratorId) {
         Board board = getBoardById(boardId);
 
-        userService.validateUser(collaboratorId);
+        if(!userService.validateUser(collaboratorId)){
+            throw new UserNotFoundException(collaboratorId);
+        }
 
         board.addCollaborator(collaboratorId);
 

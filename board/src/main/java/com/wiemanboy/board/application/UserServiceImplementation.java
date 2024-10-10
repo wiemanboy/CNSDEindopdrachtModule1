@@ -19,6 +19,6 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public Boolean validateUser(UUID id) {
-        return restTemplate.getForObject(url + id + "/exists" , Boolean.class);
+        return restTemplate.getForObject(String.format("%s%s/exists", url, id) , Boolean.class);
     }
 }
