@@ -4,8 +4,6 @@ on:
   release:
     types:
       - released
-    workflows:
-      - "user-release"
   workflow_dispatch:
     inputs:
       version:

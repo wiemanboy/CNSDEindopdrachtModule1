@@ -4,8 +4,6 @@ on:
   release:
     types:
       - released
-    workflows:
-      - "frontend-release"
   workflow_dispatch:
 
 jobs:
