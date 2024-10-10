@@ -17,7 +17,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceIT {
     @Autowired
-    private UserServiceImplementation userService;
+    private UserService userService;
     @Autowired
     private RestTemplate restTemplate;
 
