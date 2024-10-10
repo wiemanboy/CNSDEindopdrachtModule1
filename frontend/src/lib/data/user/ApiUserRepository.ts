@@ -13,7 +13,7 @@ class ApiUserRepository implements UserRepository {
 	}
 
 	async getAllUsers(): Promise<UserDto[]> {
-		const result = await this.apiClient.get(this.baseUrl);
+		const result = await this.apiClient.get(`${this.baseUrl}/`);
 		return result.json();
 	}
 
@@ -22,8 +22,8 @@ class ApiUserRepository implements UserRepository {
 		return result.json();
 	}
 
-	async registerUser(username: string): Promise<void> {
-		const result = await this.apiClient.post(this.baseUrl, { username });
+	async registerUser(username: string): Promise<UserDto> {
+		const result = await this.apiClient.post(`${this.baseUrl}/`, undefined, { username: username});
 		return result.json();
 	}
 
