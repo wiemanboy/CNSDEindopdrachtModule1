@@ -40,7 +40,7 @@ class ApiBoardRepository implements BoardRepository {
 	}
 
 	async createBoard(title: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(this.baseUrl, { title });
+		const result = await this.apiClient.post(`${this.baseUrl}/`, { title });
 		return result.json();
 	}
 
@@ -50,7 +50,7 @@ class ApiBoardRepository implements BoardRepository {
 	}
 
 	async getBoards(): Promise<BoardDto[]> {
-		const result = await this.apiClient.get(this.baseUrl);
+		const result = await this.apiClient.get(`${this.baseUrl}/`);
 		return result.json();
 	}
 

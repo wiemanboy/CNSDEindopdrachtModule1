@@ -13,12 +13,12 @@ class ApiTagRepository implements TagRepository {
 	}
 
 	async getTags(): Promise<TagDto[]> {
-		const result = await this.apiClient.get(this.baseUrl);
+		const result = await this.apiClient.get(`${this.baseUrl}/`);
 		return result.json();
 	}
 
 	async createTag(name: string, color: string): Promise<TagDto> {
-		const result = await this.apiClient.post(this.baseUrl, { name, color });
+		const result = await this.apiClient.post(`${this.baseUrl}/`, { name, color });
 		return result.json();
 	}
 
