@@ -35,7 +35,7 @@
 		"svelte-check": "^4.0.0",
 		"tailwindcss": "^3.4.13",
 		"typescript": "^5.0.0",
-		"typescript-eslint": "^8.0.0",z
+		"typescript-eslint": "^8.0.0",
 		"unplugin-icons": "^0.19.3",
 		"vite": "^5.0.3",
 		"vitest": "^2.0.0"
