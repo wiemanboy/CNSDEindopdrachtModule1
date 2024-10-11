@@ -13,6 +13,9 @@ Board Page
 	import Board from "../../components/board/Board.svelte";
 	import CreateTaskListPopup from "../../components/popup/CreateTaskListPopup.svelte";
 	import type TagRepository from "$lib/data/board/TagRepository";
+	import CreateTaskPopup from "../../components/popup/CreateTaskPopup.svelte";
+	import CreateTagPopup from "../../components/popup/CreateTagPopup.svelte";
+	import AddTagPopup from "../../components/popup/AddTagPopup.svelte";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 	const tagRepository = container.get<TagRepository>(types.tagRepository);
@@ -49,15 +52,15 @@ Board Page
 	}
 
 	function showCreateTask() {
-		console.log("createTask");
+		showCreateTaskPopup = true;
 	}
 
 	function showCreateTag() {
-		console.log("createTag");
+		showCreateTagPopup = true;
 	}
 
 	function showAddTag() {
-		console.log("addTag");
+		showAddTagPopup = true;
 	}
 
 	async function createTaskList(boardId: string, title: string) {
@@ -108,6 +111,15 @@ Board Page
 	{/if}
 	{#if (showCreateTaskListPopup)}
 		<CreateTaskListPopup boardId="{id}" close="{closePopUps}" {createTaskList} />
+	{/if}
+	{#if (showCreateTaskPopup)}
+		<CreateTaskPopup boardId="{id}" taskListId="taskListId" close="{closePopUps}" {createTask} />
+	{/if}
+	{#if (showCreateTagPopup)}
+		<CreateTagPopup close="{closePopUps}" {createTag} />
+	{/if}
+	{#if (showAddTagPopup)}
+		<AddTagPopup boardId="{id}" taskId="task" close="{closePopUps}" {addTag} />
 	{/if}
 </div>
 
