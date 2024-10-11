@@ -51,6 +51,16 @@ public class BoardController {
                 createTaskListDto.description()
         ));
     }
+    //TODO Create tests for endpoint
+    @PutMapping("/{boardId}/update-task")
+    public BoardDto updateTask(@PathVariable UUID boardId, @RequestBody UpdateTaskDto updateTaskDto) {
+        return BoardDto.from(boardService.updateTask(
+                boardId,
+                updateTaskDto.taskId(),
+                updateTaskDto.title(),
+                updateTaskDto.description()
+        ));
+    }
 
     @PutMapping("/{boardId}/move-task")
     public BoardDto moveTask(@PathVariable UUID boardId, @RequestBody MoveTaskDto moveTaskDto) {
