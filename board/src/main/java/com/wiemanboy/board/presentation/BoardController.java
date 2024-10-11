@@ -76,4 +76,9 @@ public class BoardController {
     public BoardDto addCollaborator(@PathVariable UUID boardId, @RequestBody AddCollaboratorDto addCollaboratorDto) {
         return BoardDto.from(boardService.addCollaborator(boardId, addCollaboratorDto.collaboratorId()));
     }
+    //TODO Create tests for endpoint
+    @PutMapping("/{boardId}/add-collaborator-to-task")
+    public BoardDto addCollaboratorToTask(@PathVariable UUID boardId, @RequestBody AddCollaboratorToTaskDto addCollaboratorToTaskDto) {
+        return BoardDto.from(boardService.addCollaboratorToTask(boardId, addCollaboratorToTaskDto.taskId(), addCollaboratorToTaskDto.collaboratorId()));
+    }
 }

@@ -100,4 +100,18 @@ public class BoardService {
         boardRepository.save(board);
         return board;
     }
+    //TODO create test for service
+    public Board addCollaboratorToTask(UUID boardId, UUID taskId, UUID collaboratorId) {
+        Board board = getBoardById(boardId);
+        Task task = board.getTaskById(taskId);
+
+        if(!userService.validateUser(collaboratorId)){
+            throw new UserNotFoundException(collaboratorId);
+        }
+
+        task.addCollaborator(collaboratorId);
+
+        boardRepository.save(board);
+        return board;
+    }
 }
