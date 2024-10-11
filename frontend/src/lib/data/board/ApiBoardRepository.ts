@@ -61,6 +61,31 @@ class ApiBoardRepository implements BoardRepository {
 		});
 		return result.json();
 	}
+
+	async removeTag(boardId: string, taskId: string, tagId: string): Promise<BoardDto> {
+		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/remove-tag`, {
+			taskId,
+			tagId,
+		});
+		return result.json();
+	}
+
+	async updateTask(boardId: string, taskId: string, title: string, description: string): Promise<BoardDto> {
+		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/update-task`, {
+			taskId,
+			title,
+			description,
+		});
+		return result.json();
+	}
+
+	async addCollaboratorToTask(boardId: string, taskId: string, userId: string): Promise<BoardDto> {
+		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/add-collaborator-to-task`, {
+			taskId,
+			userId,
+		});
+		return result.json();
+	}
 }
 
 export default ApiBoardRepository;
