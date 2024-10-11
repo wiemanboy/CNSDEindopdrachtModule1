@@ -21,6 +21,7 @@ Board Page
 	import AddUserPopup from "../../components/popup/AddUserPopup.svelte";
 	import type UserDto from "$lib/dtos/user/UserDto";
 	import type UserRepository from "$lib/data/user/UserRepository";
+	import EditTaskPopup from "../../components/popup/EditTaskPopup.svelte";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 	const tagRepository = container.get<TagRepository>(types.tagRepository);
@@ -38,6 +39,7 @@ Board Page
 	let showAddTagPopup = false;
 	let showAddCollaboratorPopup = false;
 	let showAddCollaboratorToTaskPopup = false;
+	let showEditTaskPopup = false;
 
 	let selectedTaskListId: string;
 	let selectedTaskId: string;
@@ -49,6 +51,7 @@ Board Page
 		showAddTagPopup = false;
 		showAddCollaboratorPopup = false;
 		showAddCollaboratorToTaskPopup = false;
+		showEditTaskPopup = false;
 	}
 
 	function refresh() {
@@ -99,6 +102,11 @@ Board Page
 		selectedTaskId = taskId;
 	}
 
+	function showEditTask(taskId: string) {
+		showEditTaskPopup = true;
+		selectedTaskId = taskId;
+	}
+
 	async function createTaskList(boardId: string, title: string) {
 		await boardRepository.addTaskList(boardId, title);
 		refresh();
@@ -119,8 +127,13 @@ Board Page
 		refresh();
 	}
 
+	async function removeTag(taskId: string, tagId: string) {
+		//TODO: remove tag
+		refresh();
+	}
+
 	async function addCollaboratorToTask(boardId: string, taskId: string, userId: string) {
-		console.log("add user to task");
+		//TODO: add collaborator to task
 		refresh();
 	}
 
@@ -128,6 +141,12 @@ Board Page
 		await boardRepository.addCollaborator(boardId, userId);
 		refresh();
 	}
+
+	async function editTask(boardId: string, taskId: string, title: string, description: string) {
+		//TODO: edit task
+		refresh();
+	}
+
 
 	onMount(() => {
 		const searchParams = new URLSearchParams(window.location.search);
@@ -155,6 +174,8 @@ Board Page
 			addTag="{showAddTag}"
 			addCollaborator="{showAddCollaborator}"
 			addCollaboratorToTask="{showAddCollaboratorToTask}"
+			editTask="{showEditTask}"
+			{removeTag}
 		/>
 	{/if}
 	{#if (showCreateTaskListPopup)}
@@ -162,6 +183,9 @@ Board Page
 	{/if}
 	{#if (showCreateTaskPopup)}
 		<CreateTaskPopup boardId="{id}" taskListId="{selectedTaskListId}" close="{closePopUps}" {createTask} />
+	{/if}
+	{#if (showEditTaskPopup)}
+		<EditTaskPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {editTask} />
 	{/if}
 	{#if (showCreateTagPopup)}
 		<CreateTagPopup close="{closePopUps}" {createTag} />
