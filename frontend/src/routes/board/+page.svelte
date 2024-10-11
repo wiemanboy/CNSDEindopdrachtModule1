@@ -11,27 +11,73 @@ Board Page
 	import types from "$lib/types";
 	import type BoardDto from "$lib/dtos/board/BoardDto";
 	import Board from "../../components/board/Board.svelte";
+	import CreateTaskListPopup from "../../components/popup/CreateTaskListPopup.svelte";
+	import type TagRepository from "$lib/data/board/TagRepository";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
+	const tagRepository = container.get<TagRepository>(types.tagRepository);
 
 	let error: string;
 	let id: string;
 	let board: BoardDto;
 
-	function createTaskList() {
-		console.log("createTaskList");
+	let showCreateTaskListPopup = false;
+	let showCreateTaskPopup = false;
+	let showCreateTagPopup = false;
+	let showAddTagPopup = false;
+
+	function closePopUps() {
+		showCreateTaskListPopup = false;
+		showCreateTaskPopup = false;
+		showCreateTagPopup = false;
+		showAddTagPopup = false;
 	}
 
-	function createTask() {
+	function refresh() {
+		console.log("refresh");
+		boardRepository.getBoard(id)
+			.then((data) => {
+				board = data;
+			})
+			.catch((err) => {
+				error = err;
+			});
+	}
+
+	function showCreateTaskList() {
+		showCreateTaskListPopup = true;
+	}
+
+	function showCreateTask() {
 		console.log("createTask");
 	}
 
-	function createTag() {
+	function showCreateTag() {
 		console.log("createTag");
 	}
 
-	function addTag() {
+	function showAddTag() {
 		console.log("addTag");
+	}
+
+	async function createTaskList(boardId: string, title: string) {
+		await boardRepository.addTaskList(boardId, title);
+		refresh();
+	}
+
+	async function createTask(boardId: string, taskListId: string, title: string, description: string) {
+		await boardRepository.addTask(boardId, taskListId, title, description);
+		refresh();
+	}
+
+	async function createTag(title: string, color: string) {
+		await tagRepository.createTag(title, color);
+		refresh();
+	}
+
+	async function addTag(boardId: string, taskId: string, tagId: string) {
+		await boardRepository.addTag(boardId, taskId, tagId);
+		refresh();
 	}
 
 	onMount(() => {
@@ -41,13 +87,7 @@ Board Page
 			goto("/boards");
 			return;
 		}
-		boardRepository.getBoard(id)
-			.then((data) => {
-				board = data;
-			})
-			.catch((err) => {
-				error = err;
-			});
+		refresh();
 	});
 </script>
 
@@ -58,7 +98,16 @@ Board Page
 	{:else if (board === undefined)}
 		<p>Loading...</p>
 	{:else}
-		<Board boardDto="{board}" {createTaskList} {createTask} {createTag} {addTag} />
+		<Board
+			boardDto="{board}"
+			createTaskList="{showCreateTaskList}"
+			createTask="{showCreateTask}"
+			createTag="{showCreateTag}"
+			addTag="{showAddTag}"
+		/>
+	{/if}
+	{#if (showCreateTaskListPopup)}
+		<CreateTaskListPopup boardId="{id}" close="{closePopUps}" {createTaskList} />
 	{/if}
 </div>
 
