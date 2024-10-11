@@ -16,6 +16,7 @@ Board
 	export let addCollaboratorToTask: (taskId: string) => void;
 	export let editTask: (taskId: string) => void;
 	export let removeTag: (taskId: string, tagId: string) => void;
+	export let moveTask: (taskId: string) => void;
 </script>
 
 <div class="flex flex-col gap-2 p-2 min-h-screen">
@@ -27,7 +28,7 @@ Board
 	</div>
 	<div class="flex gap-2 grow">
 		{#each boardDto.taskLists as taskList}
-			<TaskList taskListDto="{taskList}" {createTask} {addTag} {addCollaboratorToTask} {removeTag} {editTask}/>
+			<TaskList taskListDto="{taskList}" {createTask} {addTag} {addCollaboratorToTask} {removeTag} {editTask} {moveTask}/>
 		{/each}
 	</div>
 </div>

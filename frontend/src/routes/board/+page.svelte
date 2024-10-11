@@ -22,6 +22,7 @@ Board Page
 	import type UserDto from "$lib/dtos/user/UserDto";
 	import type UserRepository from "$lib/data/user/UserRepository";
 	import EditTaskPopup from "../../components/popup/EditTaskPopup.svelte";
+	import MoveTaskPopup from "../../components/popup/MoveTaskPopup.svelte";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 	const tagRepository = container.get<TagRepository>(types.tagRepository);
@@ -40,6 +41,7 @@ Board Page
 	let showAddCollaboratorPopup = false;
 	let showAddCollaboratorToTaskPopup = false;
 	let showEditTaskPopup = false;
+	let showMoveTaskPopup = false;
 
 	let selectedTaskListId: string;
 	let selectedTaskId: string;
@@ -52,6 +54,7 @@ Board Page
 		showAddCollaboratorPopup = false;
 		showAddCollaboratorToTaskPopup = false;
 		showEditTaskPopup = false;
+		showMoveTaskPopup = false;
 	}
 
 	function refresh() {
@@ -107,6 +110,11 @@ Board Page
 		selectedTaskId = taskId;
 	}
 
+	function showMoveTask(taskId: string) {
+		showMoveTaskPopup = true;
+		selectedTaskId = taskId;
+	}
+
 	async function createTaskList(boardId: string, title: string) {
 		await boardRepository.addTaskList(boardId, title);
 		refresh();
@@ -147,6 +155,11 @@ Board Page
 		refresh();
 	}
 
+	async function moveTask(boardId: string, taskId: string, taskListId: string) {
+		await boardRepository.moveTask(boardId, taskListId, taskId);
+		refresh();
+	}
+
 
 	onMount(() => {
 		const searchParams = new URLSearchParams(window.location.search);
@@ -176,6 +189,7 @@ Board Page
 			addCollaboratorToTask="{showAddCollaboratorToTask}"
 			editTask="{showEditTask}"
 			{removeTag}
+			moveTask="{showMoveTask}"
 		/>
 	{/if}
 	{#if (showCreateTaskListPopup)}
@@ -198,6 +212,9 @@ Board Page
 	{/if}
 	{#if (showAddCollaboratorToTaskPopup)}
 		<AddUserToTaskPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" addUser="{addCollaboratorToTask}" {users} />
+	{/if}
+	{#if (showMoveTaskPopup)}
+		<MoveTaskPopup boardId="{id}" taskId="{selectedTaskId}" taskLists="{board.taskLists}" close="{closePopUps}" {moveTask} />
 	{/if}
 </div>
 
