@@ -25,7 +25,7 @@ public class UserRegisterStepsDefinition {
         response = testRestTemplate.postForEntity("http://localhost:8080/api/users/?username=henk", null, String.class);
     }
 
-    @Then("^the client receives status code of (\\d+)$")
+    @Then("^the client receives status code of (\\d+) for their registration$")
     public void theClientReceivesStatusCodeOf(int arg0) {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
 

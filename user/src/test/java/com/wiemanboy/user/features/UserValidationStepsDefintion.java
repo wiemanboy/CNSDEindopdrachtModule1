@@ -2,8 +2,10 @@ package com.wiemanboy.user.features;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;
@@ -25,6 +27,12 @@ public class UserValidationStepsDefintion {
         assertThat(responseBody).contains("id");
         String idString = responseBody.substring(responseBody.indexOf("\"id\":\"") + 6, responseBody.indexOf("\",", responseBody.indexOf("\"id\":\"")));
         id = UUID.fromString(idString);
+    }
+
+    @Then("^the client receives status code of (\\d+) for their validation$")
+    public void theClientReceivesStatusCodeOf(int arg0) {
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+
     }
 
     @When("^the client makes a GET request to /exists$")
