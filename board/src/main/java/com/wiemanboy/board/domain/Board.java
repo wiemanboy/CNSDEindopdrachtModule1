@@ -56,7 +56,9 @@ public class Board extends DatabaseObject {
 
     public Task getTaskById(UUID taskId) {
         return taskLists.stream()
-                .map(taskList -> taskList.getTaskById(taskId))
+                .map(TaskList::getTasks)
+                .flatMap(List::stream)
+                .filter(task -> task.getId().equals(taskId))
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
