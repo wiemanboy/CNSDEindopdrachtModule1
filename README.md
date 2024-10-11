@@ -5,12 +5,12 @@
 
 ## Frontend
 
-The frontend is available at this bucket:
+The frontend is available at this bucket:  
 http://jochem-task-management-website.s3-website-us-east-1.amazonaws.com/
 
 ## Backend
 
-The backend is available with this alb endpoint:
+The backend is available with this alb endpoint:  
 http://ecs-task-managment-cluster-alb-1803841971.us-east-1.elb.amazonaws.com
 
 ## CI/CD Pipelines
