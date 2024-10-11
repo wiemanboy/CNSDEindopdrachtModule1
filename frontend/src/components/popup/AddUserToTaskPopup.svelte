@@ -8,12 +8,13 @@ CreateUserPopup
 	import type UserDto from "$lib/dtos/user/UserDto";
 
 	export let boardId: string;
+	export let taskId: string;
 	export let close: () => void;
-	export let addUser: (boardId: string, userId: string) => any;
+	export let addUser: (boardId: string, taskId: string, userId: string) => any;
 	export let users: UserDto[];
 
 	async function submit(userId: string) {
-		await addUser(boardId, userId);
+		await addUser(boardId, taskId, userId);
 		close();
 	}
 </script>

@@ -17,19 +17,27 @@ Board Page
 	import CreateTagPopup from "../../components/popup/CreateTagPopup.svelte";
 	import AddTagPopup from "../../components/popup/AddTagPopup.svelte";
 	import type TagDto from "$lib/dtos/board/TagDto";
+	import AddUserToTaskPopup from "../../components/popup/AddUserToTaskPopup.svelte";
+	import AddUserPopup from "../../components/popup/AddUserPopup.svelte";
+	import type UserDto from "$lib/dtos/user/UserDto";
+	import type UserRepository from "$lib/data/user/UserRepository";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 	const tagRepository = container.get<TagRepository>(types.tagRepository);
+	const userRepository = container.get<UserRepository>(types.userRepository);
 
 	let error: string;
 	let id: string;
 	let board: BoardDto;
 	let tags: TagDto[] = [];
+	let users: UserDto[] = [];
 
 	let showCreateTaskListPopup = false;
 	let showCreateTaskPopup = false;
 	let showCreateTagPopup = false;
 	let showAddTagPopup = false;
+	let showAddCollaboratorPopup = false;
+	let showAddCollaboratorToTaskPopup = false;
 
 	let selectedTaskListId: string;
 	let selectedTaskId: string;
@@ -39,6 +47,8 @@ Board Page
 		showCreateTaskPopup = false;
 		showCreateTagPopup = false;
 		showAddTagPopup = false;
+		showAddCollaboratorPopup = false;
+		showAddCollaboratorToTaskPopup = false;
 	}
 
 	function refresh() {
@@ -53,6 +63,13 @@ Board Page
 			.then((data) => {
 				tags = data;
 			})
+			.catch((err) => {
+				error = err;
+			});
+		userRepository.getAllUsers()
+			.then((data) => {
+				users = data;
+			});
 	}
 
 	function showCreateTaskList() {
@@ -73,6 +90,15 @@ Board Page
 		selectedTaskId = taskId;
 	}
 
+	function showAddCollaborator() {
+		showAddCollaboratorPopup = true;
+	}
+
+	function showAddCollaboratorToTask(taskId: string) {
+		showAddCollaboratorToTaskPopup = true;
+		selectedTaskId = taskId;
+	}
+
 	async function createTaskList(boardId: string, title: string) {
 		await boardRepository.addTaskList(boardId, title);
 		refresh();
@@ -90,6 +116,16 @@ Board Page
 
 	async function addTag(boardId: string, taskId: string, tagId: string) {
 		await boardRepository.addTag(boardId, taskId, tagId);
+		refresh();
+	}
+
+	async function addCollaboratorToTask(boardId: string, taskId: string, userId: string) {
+		console.log("add user to task");
+		refresh();
+	}
+
+	async function addCollaborator(boardId: string, userId: string) {
+		await boardRepository.addCollaborator(boardId, userId);
 		refresh();
 	}
 
@@ -117,6 +153,8 @@ Board Page
 			createTask="{showCreateTask}"
 			createTag="{showCreateTag}"
 			addTag="{showAddTag}"
+			addCollaborator="{showAddCollaborator}"
+			addCollaboratorToTask="{showAddCollaboratorToTask}"
 		/>
 	{/if}
 	{#if (showCreateTaskListPopup)}
@@ -130,6 +168,12 @@ Board Page
 	{/if}
 	{#if (showAddTagPopup)}
 		<AddTagPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {addTag} tags="{tags}"/>
+	{/if}
+	{#if (showAddCollaboratorPopup)}
+		<AddUserPopup boardId="{id}" close="{closePopUps}" addUser="{addCollaborator}" {users} />
+	{/if}
+	{#if (showAddCollaboratorToTaskPopup)}
+		<AddUserToTaskPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" addUser="{addCollaboratorToTask}" {users} />
 	{/if}
 </div>
 

@@ -10,6 +10,7 @@ TaskList
 	export let taskListDto: TaskListDto;
 	export let createTask: (taskListId: string) => void;
 	export let addTag: (taskId: string) => void;
+	export let addCollaboratorToTask: (taskId: string) => void;
 </script>
 
 <div class="flex flex-col grow front-themed p-2 rounded gap-2">
@@ -20,7 +21,7 @@ TaskList
 	</div>
 	<div class="flex flex-col gap-2">
 		{#each taskListDto.tasks as task}
-			<Task taskDto="{task}" {addTag} />
+			<Task taskDto="{task}" {addTag} {addCollaboratorToTask}/>
 		{/each}
 	</div>
 </div>
