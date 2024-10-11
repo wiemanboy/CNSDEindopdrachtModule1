@@ -7,13 +7,19 @@ export default interface BoardRepository {
 
 	createBoard(title: string): Promise<BoardDto>;
 
-	addTaskList(boardId: string, title: string): Promise<void>;
+	addTaskList(boardId: string, title: string): Promise<BoardDto>;
 
-	addTask(boardId: string, taskListId: string, title: string, description: string): Promise<void>;
+	addTask(boardId: string, taskListId: string, title: string, description: string): Promise<BoardDto>;
 
-	addTag(boardId: string, taskId: string, tagId: string): Promise<void>;
+	addTag(boardId: string, taskId: string, tagId: string): Promise<BoardDto>;
 
-	addCollaborator(boardId: string, userId: string): Promise<void>;
+	addCollaborator(boardId: string, userId: string): Promise<BoardDto>;
 
-	moveTask(boardId: string, taskId: string, targetTaskListId: string): Promise<void>;
+	moveTask(boardId: string, taskId: string, targetTaskListId: string): Promise<BoardDto>;
+
+	removeTag(boardId: string, taskId: string, tagId: string): Promise<BoardDto>;
+
+	updateTask(boardId: string, taskId: string, title: string, description: string): Promise<BoardDto>;
+	
+	addCollaboratorToTask(boardId: string, taskId: string, userId: string): Promise<BoardDto>;
 }
