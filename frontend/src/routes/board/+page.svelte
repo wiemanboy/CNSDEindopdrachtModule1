@@ -136,12 +136,12 @@ Board Page
 	}
 
 	async function removeTag(taskId: string, tagId: string) {
-		//TODO: remove tag
+		await boardRepository.removeTag(board.id, taskId, tagId);
 		refresh();
 	}
 
 	async function addCollaboratorToTask(boardId: string, taskId: string, userId: string) {
-		//TODO: add collaborator to task
+		await boardRepository.addCollaboratorToTask(boardId, taskId, userId);
 		refresh();
 	}
 
@@ -151,7 +151,7 @@ Board Page
 	}
 
 	async function editTask(boardId: string, taskId: string, title: string, description: string) {
-		//TODO: edit task
+		await boardRepository.updateTask(boardId, taskId, title, description);
 		refresh();
 	}
 
