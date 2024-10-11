@@ -6,17 +6,20 @@ Board
 <script lang="ts">
 	import type BoardDto from "$lib/dtos/board/BoardDto";
 	import TaskList from "./TaskList.svelte";
+	import type TaskListDto from "$lib/dtos/board/TaskListDto";
+	import type TaskDto from "$lib/dtos/board/TaskDto";
 
+	// This could have been done better by using slots so it doesn't have to hot-potato the functions
 	export let boardDto: BoardDto;
 	export let createTaskList: () => void;
-	export let createTask: (taskListId: string) => void;
+	export let createTask: (taskList: TaskListDto) => void;
 	export let createTag: () => void;
-	export let addTag: (taskId: string) => void;
+	export let addTag: (task: TaskDto) => void;
 	export let addCollaborator: () => void;
-	export let addCollaboratorToTask: (taskId: string) => void;
-	export let editTask: (taskId: string) => void;
+	export let addCollaboratorToTask: (task: TaskDto) => void;
+	export let editTask: (task: TaskDto) => void;
 	export let removeTag: (taskId: string, tagId: string) => void;
-	export let moveTask: (taskId: string) => void;
+	export let moveTask: (task: TaskDto) => void;
 </script>
 
 <div class="flex flex-col gap-2 p-2 min-h-screen">

@@ -6,14 +6,12 @@ CreateTaskPopup
 <script lang="ts">
 	import Popup from "./Popup.svelte";
 
-	export let boardId: string;
-	export let taskListId: string;
 	export let close: () => void;
-	export let createTask: (boardId: string, taskListId: string, title: string, description: string) => any;
+	export let createTask: (title: string, description: string) => any;
 
 	async function submit(event: Event) {
 		event.preventDefault();
-		await createTask(boardId, taskListId, title, description);
+		await createTask(title, description);
 		close();
 	}
 

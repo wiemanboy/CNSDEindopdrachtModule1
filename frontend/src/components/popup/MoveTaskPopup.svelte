@@ -7,14 +7,13 @@ MoveTaskPopup
 	import Popup from "./Popup.svelte";
 	import type TaskListDto from "$lib/dtos/board/TaskListDto";
 
-	export let boardId: string;
-	export let taskId: string;
+
 	export let taskLists: TaskListDto[];
 	export let close: () => void;
-	export let moveTask: (boardId: string, taskId: string, taskListId: string) => any;
+	export let moveTask: (taskListId: string) => any;
 
 	async function submit(taskListId: string) {
-		await moveTask(boardId, taskListId, taskId);
+		await moveTask(taskListId,);
 		close();
 	}
 </script>

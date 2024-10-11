@@ -23,6 +23,8 @@ Board Page
 	import type UserRepository from "$lib/data/user/UserRepository";
 	import EditTaskPopup from "../../components/popup/EditTaskPopup.svelte";
 	import MoveTaskPopup from "../../components/popup/MoveTaskPopup.svelte";
+	import type TaskListDto from "$lib/dtos/board/TaskListDto";
+	import type TaskDto from "$lib/dtos/board/TaskDto";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 	const tagRepository = container.get<TagRepository>(types.tagRepository);
@@ -43,8 +45,8 @@ Board Page
 	let showEditTaskPopup = false;
 	let showMoveTaskPopup = false;
 
-	let selectedTaskListId: string;
-	let selectedTaskId: string;
+	let selectedTaskList: TaskListDto;
+	let selectedTask: TaskDto;
 
 	function closePopUps() {
 		showCreateTaskListPopup = false;
@@ -82,46 +84,46 @@ Board Page
 		showCreateTaskListPopup = true;
 	}
 
-	function showCreateTask(taskListId: string) {
+	function showCreateTask(taskList: TaskListDto) {
 		showCreateTaskPopup = true;
-		selectedTaskListId = taskListId;
+		selectedTaskList = taskList;
 	}
 
 	function showCreateTag() {
 		showCreateTagPopup = true;
 	}
 
-	function showAddTag(taskId: string) {
+	function showAddTag(task: TaskDto) {
 		showAddTagPopup = true;
-		selectedTaskId = taskId;
+		selectedTask = task;
 	}
 
 	function showAddCollaborator() {
 		showAddCollaboratorPopup = true;
 	}
 
-	function showAddCollaboratorToTask(taskId: string) {
+	function showAddCollaboratorToTask(task: TaskDto) {
 		showAddCollaboratorToTaskPopup = true;
-		selectedTaskId = taskId;
+		selectedTask = task;
 	}
 
-	function showEditTask(taskId: string) {
+	function showEditTask(task: TaskDto) {
 		showEditTaskPopup = true;
-		selectedTaskId = taskId;
+		selectedTask = task;
 	}
 
-	function showMoveTask(taskId: string) {
+	function showMoveTask(task: TaskDto) {
 		showMoveTaskPopup = true;
-		selectedTaskId = taskId;
+		selectedTask = task;
 	}
 
-	async function createTaskList(boardId: string, title: string) {
-		await boardRepository.addTaskList(boardId, title);
+	async function createTaskList(title: string) {
+		await boardRepository.addTaskList(board.id, title);
 		refresh();
 	}
 
-	async function createTask(boardId: string, taskListId: string, title: string, description: string) {
-		await boardRepository.addTask(boardId, taskListId, title, description);
+	async function createTask(title: string, description: string) {
+		await boardRepository.addTask(board.id, selectedTaskList.id, title, description);
 		refresh();
 	}
 
@@ -130,33 +132,33 @@ Board Page
 		refresh();
 	}
 
-	async function addTag(boardId: string, taskId: string, tagId: string) {
-		await boardRepository.addTag(boardId, taskId, tagId);
+	async function addTag(tagId: string) {
+		await boardRepository.addTag(board.id, selectedTask.id, tagId);
 		refresh();
 	}
 
-	async function removeTag(taskId: string, tagId: string) {
-		await boardRepository.removeTag(board.id, taskId, tagId);
+	async function removeTag(tagId: string) {
+		await boardRepository.removeTag(board.id, selectedTask.id, tagId);
 		refresh();
 	}
 
-	async function addCollaboratorToTask(boardId: string, taskId: string, userId: string) {
-		await boardRepository.addCollaboratorToTask(boardId, taskId, userId);
+	async function addCollaboratorToTask(userId: string) {
+		await boardRepository.addCollaboratorToTask(board.id, selectedTask.id, userId);
 		refresh();
 	}
 
-	async function addCollaborator(boardId: string, userId: string) {
-		await boardRepository.addCollaborator(boardId, userId);
+	async function addCollaborator(userId: string) {
+		await boardRepository.addCollaborator(board.id, userId);
 		refresh();
 	}
 
-	async function editTask(boardId: string, taskId: string, title: string, description: string) {
-		await boardRepository.updateTask(boardId, taskId, title, description);
+	async function editTask(title: string, description: string) {
+		await boardRepository.updateTask(board.id, selectedTask.id, title, description);
 		refresh();
 	}
 
-	async function moveTask(boardId: string, taskId: string, taskListId: string) {
-		await boardRepository.moveTask(boardId, taskListId, taskId);
+	async function moveTask(taskListId: string) {
+		await boardRepository.moveTask(board.id, taskListId, selectedTask.id);
 		refresh();
 	}
 
@@ -193,28 +195,28 @@ Board Page
 		/>
 	{/if}
 	{#if (showCreateTaskListPopup)}
-		<CreateTaskListPopup boardId="{id}" close="{closePopUps}" {createTaskList} />
+		<CreateTaskListPopup close="{closePopUps}" {createTaskList} />
 	{/if}
 	{#if (showCreateTaskPopup)}
-		<CreateTaskPopup boardId="{id}" taskListId="{selectedTaskListId}" close="{closePopUps}" {createTask} />
+		<CreateTaskPopup close="{closePopUps}" {createTask} />
 	{/if}
 	{#if (showEditTaskPopup)}
-		<EditTaskPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {editTask} />
+		<EditTaskPopup task="{selectedTask}" close="{closePopUps}" {editTask} />
 	{/if}
 	{#if (showCreateTagPopup)}
 		<CreateTagPopup close="{closePopUps}" {createTag} />
 	{/if}
 	{#if (showAddTagPopup)}
-		<AddTagPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {addTag} tags="{tags}"/>
+		<AddTagPopup close="{closePopUps}" {addTag} tags="{tags}"/>
 	{/if}
 	{#if (showAddCollaboratorPopup)}
-		<AddUserPopup boardId="{id}" close="{closePopUps}" addUser="{addCollaborator}" {users} />
+		<AddUserPopup close="{closePopUps}" addUser="{addCollaborator}" {users} />
 	{/if}
 	{#if (showAddCollaboratorToTaskPopup)}
-		<AddUserToTaskPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" addUser="{addCollaboratorToTask}" {users} />
+		<AddUserToTaskPopup close="{closePopUps}" addUser="{addCollaboratorToTask}" {users} />
 	{/if}
 	{#if (showMoveTaskPopup)}
-		<MoveTaskPopup boardId="{id}" taskId="{selectedTaskId}" taskLists="{board.taskLists}" close="{closePopUps}" {moveTask} />
+		<MoveTaskPopup taskId="{selectedTask.id}" taskLists="{board.taskLists}" close="{closePopUps}" {moveTask} />
 	{/if}
 </div>
 

@@ -5,20 +5,20 @@ CreateTaskPopup
 
 <script lang="ts">
 	import Popup from "./Popup.svelte";
+	import type TaskDto from "$lib/dtos/board/TaskDto";
 
-	export let boardId: string;
-	export let taskId: string;
+	export let task: TaskDto;
 	export let close: () => void;
-	export let editTask: (boardId: string, task: string, title: string, description: string) => any;
+	export let editTask: (task: string, title: string, description: string) => any;
 
 	async function submit(event: Event) {
 		event.preventDefault();
-		await editTask(boardId, taskId, title, description);
+		await editTask(task.id, title, description);
 		close();
 	}
 
-	let title = "";
-	let description = "";
+	let title = task.title;
+	let description = task.description;
 </script>
 
 <Popup title="Edit Task" {close}>
