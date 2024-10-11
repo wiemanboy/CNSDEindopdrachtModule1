@@ -158,7 +158,7 @@ Board Page
 	}
 
 	async function moveTask(taskListId: string) {
-		await boardRepository.moveTask(board.id, taskListId, selectedTask.id);
+		await boardRepository.moveTask(board.id, selectedTask.id, taskListId);
 		refresh();
 	}
 

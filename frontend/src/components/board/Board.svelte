@@ -30,7 +30,9 @@ Board
 		<button class="bg-purple-900 rounded p-2" on:click={createTag}>Create Tag</button>
 	</div>
 	<div class="flex gap-2 grow">
-		{#each boardDto.taskLists as taskList}
+		{#each boardDto.taskLists.sort(
+			(a, b) => a.title.localeCompare(b.title)
+		) as taskList}
 			<TaskList taskListDto="{taskList}" {createTask} {addTag} {addCollaboratorToTask} {removeTag} {editTask} {moveTask}/>
 		{/each}
 	</div>

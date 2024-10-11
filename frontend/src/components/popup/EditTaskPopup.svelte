@@ -9,11 +9,11 @@ CreateTaskPopup
 
 	export let task: TaskDto;
 	export let close: () => void;
-	export let editTask: (task: string, title: string, description: string) => any;
+	export let editTask: (title: string, description: string) => any;
 
 	async function submit(event: Event) {
 		event.preventDefault();
-		await editTask(task.id, title, description);
+		await editTask(title, description);
 		close();
 	}
 
