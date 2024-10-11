@@ -2,6 +2,7 @@ package com.wiemanboy.board.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.UUID;
 @Entity
 @Getter
 public class Task extends DatabaseObject {
+    @Setter
     private String title;
+    @Setter
     private String description;
     @ElementCollection
     private final List<UUID> collaboratorIds = new ArrayList<>();
@@ -27,6 +30,10 @@ public class Task extends DatabaseObject {
 
     public void addTag(Tag tag) {
         tags.add(tag);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
     }
 
     public void addCollaborator(UUID collaboratorId) {

@@ -49,6 +49,18 @@ public class BoardService {
         return board;
     }
 
+    //TODO create test for service
+    public Board updateTask(UUID boardId, UUID taskId, String title, String description) {
+        Board board = getBoardById(boardId);
+        Task task = board.getTaskById(taskId);
+
+        task.setTitle(title);
+        task.setDescription(description);
+
+        boardRepository.save(board);
+        return board;
+    }
+
     public Board addTaskToTaskList(UUID boardId, UUID taskListId, String title, String description) {
         Board board = getBoardById(boardId);
 
@@ -85,6 +97,32 @@ public class BoardService {
         }
 
         board.addCollaborator(collaboratorId);
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    //TODO create test for service
+    public Board addCollaboratorToTask(UUID boardId, UUID taskId, UUID collaboratorId) {
+        Board board = getBoardById(boardId);
+        Task task = board.getTaskById(taskId);
+
+        if(!userService.validateUser(collaboratorId)){
+            throw new UserNotFoundException(collaboratorId);
+        }
+
+        task.addCollaborator(collaboratorId);
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    //TODO create test for service
+    public Board removeTagFromTask(UUID boardId, UUID taskId, UUID tagId) {
+        Board board = getBoardById(boardId);
+        Task task = board.getTaskById(taskId);
+
+        task.removeTag(tagService.getTagById(tagId));
 
         boardRepository.save(board);
         return board;
