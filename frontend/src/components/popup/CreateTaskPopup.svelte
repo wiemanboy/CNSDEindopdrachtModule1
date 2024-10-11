@@ -21,7 +21,7 @@ CreateTaskPopup
 	let description = "Task Description";
 </script>
 
-<Popup title="CreateTaskList" {close}>
+<Popup title="Create Task" {close}>
 	<form class="flex flex-col gap-2" on:submit={submit}>
 		<div class="flex flex-col">
 			<label for="title">Title</label>

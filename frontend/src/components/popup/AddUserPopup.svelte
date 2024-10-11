@@ -1,5 +1,5 @@
 <!--
-CreateTaskPopup
+CreateUserPopup
 
 -->
 
@@ -19,7 +19,7 @@ CreateTaskPopup
 	}
 </script>
 
-<Popup title="Add Tag" {close}>
+<Popup title="Add collaborator" {close}>
 	<div class="flex flex-col gap-2">
 		<ul class="flex flex-col gap-2 mt-2">
 			{#each tags as tag}
