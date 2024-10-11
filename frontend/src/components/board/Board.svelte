@@ -9,9 +9,9 @@ Board
 
 	export let boardDto: BoardDto;
 	export let createTaskList: () => void;
-	export let createTask: () => void;
+	export let createTask: (taskListId: string) => void;
 	export let createTag: () => void;
-	export let addTag: () => void;
+	export let addTag: (taskId: string) => void;
 </script>
 
 <div class="flex flex-col gap-2 p-2 min-h-screen">

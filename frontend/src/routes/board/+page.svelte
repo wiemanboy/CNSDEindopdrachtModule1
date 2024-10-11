@@ -29,6 +29,9 @@ Board Page
 	let showCreateTagPopup = false;
 	let showAddTagPopup = false;
 
+	let selectedTaskListId: string;
+	let selectedTaskId: string;
+
 	function closePopUps() {
 		showCreateTaskListPopup = false;
 		showCreateTaskPopup = false;
@@ -51,16 +54,18 @@ Board Page
 		showCreateTaskListPopup = true;
 	}
 
-	function showCreateTask() {
+	function showCreateTask(taskListId: string) {
 		showCreateTaskPopup = true;
+		selectedTaskListId = taskListId;
 	}
 
 	function showCreateTag() {
 		showCreateTagPopup = true;
 	}
 
-	function showAddTag() {
+	function showAddTag(taskId: string) {
 		showAddTagPopup = true;
+		selectedTaskId = taskId;
 	}
 
 	async function createTaskList(boardId: string, title: string) {
@@ -113,13 +118,13 @@ Board Page
 		<CreateTaskListPopup boardId="{id}" close="{closePopUps}" {createTaskList} />
 	{/if}
 	{#if (showCreateTaskPopup)}
-		<CreateTaskPopup boardId="{id}" taskListId="taskListId" close="{closePopUps}" {createTask} />
+		<CreateTaskPopup boardId="{id}" taskListId="{selectedTaskListId}" close="{closePopUps}" {createTask} />
 	{/if}
 	{#if (showCreateTagPopup)}
 		<CreateTagPopup close="{closePopUps}" {createTag} />
 	{/if}
 	{#if (showAddTagPopup)}
-		<AddTagPopup boardId="{id}" taskId="task" close="{closePopUps}" {addTag} />
+		<AddTagPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {addTag} />
 	{/if}
 </div>
 
