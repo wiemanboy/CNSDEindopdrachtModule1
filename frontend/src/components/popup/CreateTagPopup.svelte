@@ -17,18 +17,17 @@ CreateTaskPopup
 	}
 
 	let title = "Tag";
-	let color = "#ffffff";
+	let color = "#ff0000";
 </script>
 
 <Popup title="CreateTaskList" {close}>
-	<form  on:submit={submit}>
-		<div>
+	<form class="flex flex-col gap-2" on:submit={submit}>
+		<div class="flex flex-col">
 			<label for="title">Title</label>
-			<input class="card-themed" type="text" id="title" name="title" bind:value={title}/>
-			<input class="card-themed" type="text" id="description" name="description" bind:value={color}/>
+			<input class="card-themed rounded p-2" type="text" id="title" name="title" bind:value={title}/>
+			<label for="color">Color</label>
+			<input class="card-themed rounded-xl" type="color" id="color" name="color" bind:value={color}/>
 		</div>
-		<div>
-			<button type="submit">Create Task List</button>
-		</div>
+			<button class="bg-purple-900 rounded p-2 grow" type="submit">Create Task List</button>
 	</form>
 </Popup>

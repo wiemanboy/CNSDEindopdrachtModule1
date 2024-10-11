@@ -20,13 +20,13 @@ CreateTaskListPopup
 </script>
 
 <Popup title="CreateTaskList" {close}>
-	<form  on:submit={submit}>
-		<div>
+	<form class="flex flex-col gap-2" on:submit={submit}>
+		<div class="flex flex-col">
 			<label for="title">Title</label>
 			<input class="card-themed" type="text" id="title" name="title" bind:value={title}/>
 		</div>
 		<div>
-			<button type="submit">Create Task List</button>
+			<button class="bg-purple-900 p-2" type="submit">Create Task List</button>
 		</div>
 	</form>
 </Popup>

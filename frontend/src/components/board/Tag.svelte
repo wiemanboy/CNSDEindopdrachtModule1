@@ -9,6 +9,5 @@ Tag
 	export let tagDto: TagDto;
 </script>
 
-<div>
-	<span style="background-color: {tagDto.color}">{tagDto.name}</span>
-</div>
+
+<span class="rounded p-1" style="background-color: {tagDto.color}">{tagDto.name}</span>

@@ -16,6 +16,7 @@ Board Page
 	import CreateTaskPopup from "../../components/popup/CreateTaskPopup.svelte";
 	import CreateTagPopup from "../../components/popup/CreateTagPopup.svelte";
 	import AddTagPopup from "../../components/popup/AddTagPopup.svelte";
+	import type TagDto from "$lib/dtos/board/TagDto";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 	const tagRepository = container.get<TagRepository>(types.tagRepository);
@@ -23,6 +24,7 @@ Board Page
 	let error: string;
 	let id: string;
 	let board: BoardDto;
+	let tags: TagDto[] = [];
 
 	let showCreateTaskListPopup = false;
 	let showCreateTaskPopup = false;
@@ -40,7 +42,6 @@ Board Page
 	}
 
 	function refresh() {
-		console.log("refresh");
 		boardRepository.getBoard(id)
 			.then((data) => {
 				board = data;
@@ -48,6 +49,10 @@ Board Page
 			.catch((err) => {
 				error = err;
 			});
+		tagRepository.getTags()
+			.then((data) => {
+				tags = data;
+			})
 	}
 
 	function showCreateTaskList() {
@@ -124,7 +129,7 @@ Board Page
 		<CreateTagPopup close="{closePopUps}" {createTag} />
 	{/if}
 	{#if (showAddTagPopup)}
-		<AddTagPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {addTag} />
+		<AddTagPopup boardId="{id}" taskId="{selectedTaskId}" close="{closePopUps}" {addTag} tags="{tags}"/>
 	{/if}
 </div>
 

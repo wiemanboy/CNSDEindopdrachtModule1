@@ -22,14 +22,15 @@ CreateTaskPopup
 </script>
 
 <Popup title="CreateTaskList" {close}>
-	<form  on:submit={submit}>
-		<div>
+	<form class="flex flex-col gap-2" on:submit={submit}>
+		<div class="flex flex-col">
 			<label for="title">Title</label>
 			<input class="card-themed" type="text" id="title" name="title" bind:value={title}/>
-			<input class="card-themed" type="text" id="description" name="description" bind:value={description}/>
+			<label for="description">Description</label>
+			<textarea class="card-themed" id="description" name="description" bind:value={description}/>
 		</div>
 		<div>
-			<button type="submit">Create Task List</button>
+			<button class="bg-purple-900 p-2" type="submit">Create Task List</button>
 		</div>
 	</form>
 </Popup>

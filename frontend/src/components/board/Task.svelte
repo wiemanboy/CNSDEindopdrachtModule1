@@ -11,7 +11,7 @@ Task
 	export let addTag: (TaskId: string) => void;
 </script>
 
-<div class="card-themed p-2 rounded">
+<div class="card-themed p-2 rounded flex flex-col gap-2">
 	<div class="flex">
 		<h4 class="text-xl">{taskDto.title}</h4>
 		<button class="ml-auto bg-purple-900 rounded p-2" on:click={() => addTag(taskDto.id)}>Add Tag</button>
@@ -19,9 +19,11 @@ Task
 	<div>
 		<p>{taskDto.description}</p>
 	</div>
-	<div>
+	<ul class="flex gap-2">
 		{#each taskDto.tags as tag}
-			<Tag tagDto="{tag}" />
+			<li>
+				<Tag tagDto="{tag}" />
+			</li>
 		{/each}
-	</div>
+	</ul>
 </div>

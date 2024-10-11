@@ -5,31 +5,28 @@ CreateTaskPopup
 
 <script lang="ts">
 	import Popup from "./Popup.svelte";
+	import type TagDto from "$lib/dtos/board/TagDto";
 
 	export let boardId: string;
 	export let taskId: string;
 	export let close: () => void;
 	export let addTag: (boardId: string, taskId: string, tagId: string) => any;
+	export let tags: TagDto[];
 
-	async function submit(event: Event) {
-		event.preventDefault();
+	async function submit(tagId: string) {
 		await addTag(boardId, taskId, tagId);
 		close();
 	}
-
-	let title = "Task List";
-	let tagId = "Tag";
 </script>
 
 <Popup title="CreateTaskList" {close}>
-	<form  on:submit={submit}>
-		<div>
-			<label for="title">Title</label>
-			<input class="card-themed" type="text" id="title" name="title" bind:value={title}/>
-			<input class="card-themed" type="text" id="description" name="description" bind:value={title}/>
-		</div>
-		<div>
-			<button type="submit">Create Task List</button>
-		</div>
-	</form>
+	<div class="flex flex-col gap-2">
+		<ul class="flex flex-col gap-2 mt-2">
+			{#each tags as tag}
+				<li style="background-color: {tag.color}">
+					<button class="grow" on:click={() => submit(tag.id)}>{tag.name}</button>
+				</li>
+			{/each}
+		</ul>
+	</div>
 </Popup>
