@@ -48,6 +48,7 @@ public class BoardService {
         boardRepository.save(board);
         return board;
     }
+
     //TODO create test for service
     public Board updateTask(UUID boardId, UUID taskId, String title, String description) {
         Board board = getBoardById(boardId);
@@ -100,6 +101,7 @@ public class BoardService {
         boardRepository.save(board);
         return board;
     }
+
     //TODO create test for service
     public Board addCollaboratorToTask(UUID boardId, UUID taskId, UUID collaboratorId) {
         Board board = getBoardById(boardId);
@@ -110,6 +112,17 @@ public class BoardService {
         }
 
         task.addCollaborator(collaboratorId);
+
+        boardRepository.save(board);
+        return board;
+    }
+
+    //TODO create test for service
+    public Board removeTagFromTask(UUID boardId, UUID taskId, UUID tagId) {
+        Board board = getBoardById(boardId);
+        Task task = board.getTaskById(taskId);
+
+        task.removeTag(tagService.getTagById(tagId));
 
         boardRepository.save(board);
         return board;

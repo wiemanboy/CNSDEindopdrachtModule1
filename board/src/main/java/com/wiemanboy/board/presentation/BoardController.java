@@ -72,10 +72,17 @@ public class BoardController {
         return BoardDto.from(boardService.addTagToTask(boardId, addTagDto.taskId(), addTagDto.tagId()));
     }
 
+    //TODO Create tests for endpoint
+    @PostMapping("/{boardId}/remove-tag")
+    public BoardDto removeTagFromTask(@PathVariable UUID boardId, @RequestBody RemoveTagDto removeTagDto) {
+        return BoardDto.from(boardService.removeTagFromTask(boardId, removeTagDto.taskId(), removeTagDto.tagId()));
+    }
+
     @PostMapping("/{boardId}/add-collaborator")
     public BoardDto addCollaborator(@PathVariable UUID boardId, @RequestBody AddCollaboratorDto addCollaboratorDto) {
         return BoardDto.from(boardService.addCollaborator(boardId, addCollaboratorDto.collaboratorId()));
     }
+
     //TODO Create tests for endpoint
     @PutMapping("/{boardId}/add-collaborator-to-task")
     public BoardDto addCollaboratorToTask(@PathVariable UUID boardId, @RequestBody AddCollaboratorToTaskDto addCollaboratorToTaskDto) {

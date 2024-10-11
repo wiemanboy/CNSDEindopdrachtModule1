@@ -32,6 +32,10 @@ public class Task extends DatabaseObject {
         tags.add(tag);
     }
 
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+    }
+
     public void addCollaborator(UUID collaboratorId) {
         collaboratorIds.add(collaboratorId);
     }
