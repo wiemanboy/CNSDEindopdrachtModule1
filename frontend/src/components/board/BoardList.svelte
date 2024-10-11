@@ -8,10 +8,15 @@ BoardList
     import types from '$lib/types';
     import type BoardRepository from '$lib/data/board/BoardRepository';
     import type BoardDto from '$lib/dtos/board/BoardDto';
+    import {boardStore} from "$lib/store/store";
 
     const boardsRepository: BoardRepository = container.get(types.boardRepository)
 
     const boards:Promise<BoardDto[]> = boardsRepository.getBoards()
+
+    async function selectBoard(id: string){
+        boardStore.set
+    }
 
 </script>
 
@@ -23,11 +28,11 @@ BoardList
         <ul>
             {#each boardlist as board}
                 <li>
-                    <a href="/board?id={board.id}">{board.title}</a>
+                    <button on:click={()=>selectBoard(board.id)}>{board.title}</button>
                 </li>
             {/each}
         </ul>
     {:catch error}
-        <p>{error.message}</p>
+        <p>An error has occurred during fetching</p>
     {/await}
 </div>
