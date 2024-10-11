@@ -22,9 +22,9 @@
 [![Deploy frontend](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-deploy.yml)
 
 ## Readme's voor de verschillende onderdelen
-[![User readme](https://github.com/wiemanboy/CNSDEindopdrachtModule1/blob/master/user/README.md)]
-[![Board readme](https://github.com/wiemanboy/CNSDEindopdrachtModule1/blob/master/board/README.md)]
-[![Frontend readme](https://github.com/wiemanboy/CNSDEindopdrachtModule1/blob/master/frontend/README.md)]
+* [User](https://github.com/wiemanboy/CNSDEindopdrachtModule1/blob/master/user/README.md)
+* [Board](https://github.com/wiemanboy/CNSDEindopdrachtModule1/blob/master/board/README.md)
+* [Frontend](https://github.com/wiemanboy/CNSDEindopdrachtModule1/blob/master/frontend/README.md)
 
 
 # Tabel van requirements
