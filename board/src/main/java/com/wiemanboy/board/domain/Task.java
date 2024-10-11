@@ -17,7 +17,7 @@ public class Task extends DatabaseObject {
     private String description;
     @ElementCollection
     private final List<UUID> collaboratorIds = new ArrayList<>();
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private final List<Tag> tags = new ArrayList<>();
 
     public Task(String title, String description) {

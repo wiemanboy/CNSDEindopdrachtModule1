@@ -7,13 +7,12 @@ CreateUserPopup
 	import Popup from "./Popup.svelte";
 	import type UserDto from "$lib/dtos/user/UserDto";
 
-	export let boardId: string;
 	export let close: () => void;
-	export let addUser: (boardId: string, userId: string) => any;
+	export let addUser: (userId: string) => any;
 	export let users: UserDto[];
 
 	async function submit(userId: string) {
-		await addUser(boardId, userId);
+		await addUser(userId);
 		close();
 	}
 </script>

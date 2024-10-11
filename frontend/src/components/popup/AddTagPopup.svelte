@@ -7,14 +7,12 @@ CreateTaskPopup
 	import Popup from "./Popup.svelte";
 	import type TagDto from "$lib/dtos/board/TagDto";
 
-	export let boardId: string;
-	export let taskId: string;
 	export let close: () => void;
-	export let addTag: (boardId: string, taskId: string, tagId: string) => any;
+	export let addTag: (tagId: string) => any;
 	export let tags: TagDto[];
 
 	async function submit(tagId: string) {
-		await addTag(boardId, taskId, tagId);
+		await addTag(tagId);
 		close();
 	}
 </script>
