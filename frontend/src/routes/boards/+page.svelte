@@ -8,16 +8,16 @@ Board page
 	import type UserDto from "$lib/dtos/user/UserDto";
 	import { onDestroy, onMount } from "svelte";
 	import BoardList from "../../components/board/BoardList.svelte";
+	import { goto } from "$app/navigation";
 
-	let unsubscribe = () => {};
-	let user: UserDto = {
-		id: "",
-		username: "placeholder",
+	let unsubscribe = () => {
 	};
+	let user: UserDto;
 
 	onMount(() => {
 		unsubscribe = userStore.subscribe(value => {
 			if (!value) {
+				goto("/");
 			}
 			user = value;
 		});
@@ -36,5 +36,5 @@ Board page
 	<h1 class="flex justify-center mb-52 text-5xl">
 		{user?.username}'s boards
 	</h1>
-	<BoardList/>
+	<BoardList />
 </main>
