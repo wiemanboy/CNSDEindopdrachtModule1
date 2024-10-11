@@ -10,12 +10,29 @@ Board Page
 	import type BoardRepository from "$lib/data/board/BoardRepository";
 	import types from "$lib/types";
 	import type BoardDto from "$lib/dtos/board/BoardDto";
+	import Board from "../../components/board/Board.svelte";
 
 	const boardRepository = container.get<BoardRepository>(types.boardRepository);
 
 	let error: string;
 	let id: string;
 	let board: BoardDto;
+
+	function createTaskList() {
+		console.log("createTaskList");
+	}
+
+	function createTask() {
+		console.log("createTask");
+	}
+
+	function createTag() {
+		console.log("createTag");
+	}
+
+	function addTag() {
+		console.log("addTag");
+	}
 
 	onMount(() => {
 		const searchParams = new URLSearchParams(window.location.search);
@@ -41,7 +58,7 @@ Board Page
 	{:else if (board === undefined)}
 		<p>Loading...</p>
 	{:else}
-		<h1>{board.title}</h1>
+		<Board boardDto="{board}" {createTaskList} {createTask} {createTag} {addTag} />
 	{/if}
 </div>
 
