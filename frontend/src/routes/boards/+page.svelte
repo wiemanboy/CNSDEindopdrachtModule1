@@ -4,10 +4,11 @@ Board page
 -->
 
 <script lang="ts">
-	import { userStore } from "$lib/store/store";
+	import {userStore} from "$lib/store/store";
 	import type UserDto from "$lib/dtos/user/UserDto";
-	import { goto } from "$app/navigation";
-	import { onDestroy, onMount } from "svelte";
+	import {goto} from "$app/navigation";
+	import {onDestroy, onMount} from "svelte";
+	import BoardList from "../../components/board/BoardList.svelte";
 
 	let unsubscribe = () => {};
 	let user: UserDto;
@@ -34,4 +35,5 @@ Board page
 	<h1 class="flex justify-center mb-52 text-5xl">
 		{user?.username}'s boards
 	</h1>
+	<BoardList></BoardList>
 </main>

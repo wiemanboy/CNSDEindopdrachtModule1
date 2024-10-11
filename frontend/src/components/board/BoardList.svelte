@@ -21,7 +21,6 @@ BoardList
 </script>
 
 <div>
-    <h1>Board List</h1>
     {#await boards}
         <p>Waiting for boards</p>
     {:then boardlist}
