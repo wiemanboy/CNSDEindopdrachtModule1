@@ -29,7 +29,8 @@ public class Board extends DatabaseObject {
         taskLists.forEach(taskList -> {
             if (taskList.getTasks().contains(task)) {
                 taskList.removeTask(task);
-                targetTaskList.addTask(task);
+                // recreating the task because of duplicate key exception
+                targetTaskList.addTask(new Task(task.getTitle(), task.getDescription()));
             }
         });
     }
