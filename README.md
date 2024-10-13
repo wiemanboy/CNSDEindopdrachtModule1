@@ -27,19 +27,69 @@ http://ecs-task-managment-cluster-alb-1803841971.us-east-1.elb.amazonaws.com
 [![Frontend release](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-release.yml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-release.yml)
 [![Deploy frontend](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/wiemanboy/CNSDEindopdrachtModule1/actions/workflows/frontend-deploy.yml)
 
+## SonarQube
+
+[[Board](https://sonar.cloud-native-minor.it/dashboard?id=wiemanboy-CNSDEindopdrachtModule1-board)  
+[![User](https://sonar.cloud-native-minor.it/dashboard?id=wiemanboy-CNSDEindopdrachtModule1-user)  
+[![Frontend](https://sonar.cloud-native-minor.it/dashboard?id=wiemanboy-CNSDEindopdrachtModule1-frontend)  
+Note: The frontend doesn't quite work with sonarqube.
+The coverage is not taken correctly, and SonarQube doesn't have native support for the `.svelte` format.
+
 ## Setup
 
 The project includes a global docker that sets up the entire project.
 The docker-compose file is located in the root of the project.
+
+### Frontend
 
 The frontend requires the PUBLIC_API_BASE_URL environment variable to be set to the base url of the backend (in system
 environment or .env file, see env.example).
 Keep in mind that the backends are running on different ports, so locally you will have to switch between the two.
 (This can be fixed by setting up a reverse proxy or something, but it's 20:00 on a friday so...)
 
+### Backend
+
 The backend also requires some environment variables to be set.
 I would recommend
 looking at the docker-compose file to see the environment variables needed to configure your local environment.
+
+### CI/CD
+
+The Test pipeline runs on every pr to `master` or `release/**` branch.
+The Release pipeline runs on every push to `master` or `release/**` branch.
+The Deploy pipeline runs on every release.
+
+The following secrets are needed to run the pipelines:
+
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_SESSION_TOKEN
+- DEPLOYMENT_DB_HOST
+- DEPLOYMENT_DB_PASSWORD
+- DEPLOYMENT_DB_PORT
+- DEPLOYMENT_DB_USERNAME
+- SONAR_QUBE_BOARD_TOKEN
+- SONAR_QUBE_FRONTEND_TOKEN
+- SONAR_QUBE_URL
+- SONAR_QUBE_USER_TOKEN
+- TOKEN (Github token)
+
+The following variables are needed to run the pipelines:
+
+- API_BASE_URL = http://ecs-task-managment-cluster-alb-1803841971.us-east-1.elb.amazonaws.com
+- AWS_ECR_URI = 084661144670.dkr.ecr.us-east-1.amazonaws.com
+- CORS_ALLOWED_ORIGINS = http://jochem-task-management-website.s3-website-us-east-1.amazonaws.com/
+- DEPLOY_BUCKET = jochem-task-management-website
+- SONAR_QUBE_BOARD_PROJECT_KEY = wiemanboy-CNSDEindopdrachtModule1-board
+- SONAR_QUBE_FRONTEND_PROJECT_KEY = wiemanboy-CNSDEindopdrachtModule1-frontend
+- SONAR_QUBE_USER_PROJECT_KEY = wiemanboy-CNSDEindopdrachtModule1-user
+
+### Deployment
+
+All AWS resources should be active and running (all services with one task).
+If not, the database should be activated and in the services the desired tasks should be updated.
+
+For a more detailed explanation see the Deployment diagram.
 
 ## Readme's voor de verschillende onderdelen
 
@@ -96,7 +146,7 @@ looking at the docker-compose file to see the environment variables needed to co
 |                                                                                               | Integratietesten voor de backend (@SpringBootTest + TestRestTemplate + MockServer)                                                                                                      | MUST           | ✔️         |
 |                                                                                               | Unittesten voor de frontend                                                                                                                                                             | SHOULD         | ✔️         |
 |                                                                                               | Functionele testen voor de backend (Cucumber scenario testen op REST-niveau over de services heen)                                                                                      | COULD          | ✔️         |
-|                                                                                               | Cypress testen voor de frontend                                                                                                                                                         | COULD          | 🆗         |
+|                                                                                               | Playwright (Cypress) testen voor de frontend                                                                                                                                            | COULD          | ❌          |
 |                                                                                               | SonarQube Quality Gate is passed (e.g. Codecoverage >80%)                                                                                                                               | COULD          | ✔️         |
 |                                                                                               | Mutation testing toegepast                                                                                                                                                              | COULD          | ✔️         |
 | **Kennis van cloud- en container architecturen (10%)**                                        | Logische opdeling in microservices gemaakt (minimaal 2 services)                                                                                                                        | MUST           | ✔️         |
@@ -111,9 +161,11 @@ looking at the docker-compose file to see the environment variables needed to co
 |                                                                                               | Security Groups correct toegepast (met least privilege principle)                                                                                                                       | SHOULD         | ✔️         |
 |                                                                                               | Kosten zijn beheerst en niet uit budget gelopen                                                                                                                                         | SHOULD         | ✔️         |
 
-## Diagrammen
+## Diagrams
 
-### Use case diagram
+### Use case diagram (Logical view)
+
+Use cases for the task management system.
 
 ```mermaid
 graph LR
@@ -131,7 +183,29 @@ graph LR
 
 ```
 
-## Layer architecture
+### System sequence diagram (Process view)
+
+Sequence diagram for creating a board from the board service.
+
+```mermaid
+sequenceDiagram
+    actor User
+    User ->>+ BoardController: /api/boards/
+    BoardController ->>+ BoardService: CreateBoard
+    BoardService ->>+ UserApp: CheckUserExists
+    alt User exists
+        UserApp -->> BoardService: UserExists
+        BoardService ->>+ BoardRepository: SaveBoard
+        BoardService -->> BoardController: Saved board
+        BoardController -->> User: Saved board
+    else User does not exist
+        UserApp -->>- BoardService: UserNotFound
+        BoardService -->>- BoardController: Throw UserNotFoundException
+        BoardController -->>- User: 404 User not found
+    end
+```
+
+## Layer architecture (Development view)
 
 We are using a 4-layer architecture.
 
@@ -165,29 +239,41 @@ classDiagram
     }
 ```
 
-### Domein model
+### Domain model (Development view)
 
-![Domein model](./diagrams/5-5_Eindopdracht-DOMEINMODEL.drawio.svg)
+The domain model for the task management system.
 
-### Context diagram
+![Domain model](./diagrams/5-5_Eindopdracht-DOMEINMODEL.drawio.svg)
+
+### Context diagram (Development view)
+
+The context diagram for the task management system.
 
 ![Context diagram](./diagrams/5-5_Eindopdracht-CONTEXT_DIAGRAM.drawio.svg)
 
-### Container diagram
+### Container diagram (Development view)
+
+Container diagram for the task management system.
 
 ![Container diagram](./diagrams/5-5_Eindopdracht-CONTAINER_DIAGRAM.drawio.svg)
 
-### Component diagram
+### Component diagram (Development view)
 
-#### Board
+#### Board (Development view)
+
+Component diagram for the board service.
 
 ![Component diagram board](./diagrams/5-5_Eindopdracht-COMPONENT_DIAGRAM_BOARD.drawio.svg)
 
-#### User
+#### User (Development view)
+
+Component diagram for the user service.
 
 ![Component diagram user](./diagrams/5-5_Eindopdracht-COMPONENT_DIAGRAM_USER.drawio.svg)
 
-### Deployment diagram
+### Deployment diagram (Physical view)
+
+Deployment diagram for the task management system in AWS.
 
 ![Deployment diagram](./diagrams/5-5_Eindopdracht-DEPLOYMENT_DIAGRAM.drawio.svg)
 
