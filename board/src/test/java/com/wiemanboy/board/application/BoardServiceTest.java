@@ -76,7 +76,9 @@ class BoardServiceTest {
     void updateTask() {
         Board board = new BoardBuilder().build();
         Task task = new TaskBuilder().build();
-        board.addTaskToTaskList(board.getTaskLists().getFirst(), task);
+        TaskList taskList = new TaskListBuilder().build();
+        board.addTaskList(taskList);
+        board.addTaskToTaskList(taskList, task);
 
         Mockito.when(boardRepository.findById(Mockito.any())).thenReturn(Optional.of(board));
 
