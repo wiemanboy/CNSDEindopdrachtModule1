@@ -49,7 +49,6 @@ public class BoardService {
         return board;
     }
 
-    //TODO create test for service
     public Board updateTask(UUID boardId, UUID taskId, String title, String description) {
         Board board = getBoardById(boardId);
         Task task = board.getTaskById(taskId);
