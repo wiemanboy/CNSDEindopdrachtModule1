@@ -4,6 +4,11 @@ Built with [SvelteKit](https://kit.svelte.dev/).
 
 ## Development
 
+### Known issues
+
+Contributors are currently not displayed per board or task, the contributor ids are available thought, so if we had another afternoon
+of development we would have implemented this feature by fetching these from the user service.
+
 ### Setup
 
 First install the dependencies:
@@ -52,6 +57,7 @@ For webstorm, you can configure this in `Settings > Tools > Actions on save`.
 ├── tsconfig.json  
 └── vite.config.ts
 ```
+
 ### Components
 
 Reusable components are stored in the `components` directory.
@@ -173,7 +179,8 @@ class FetchExampleRepository implements ExampleRepository {
 ```
 
 Here an `ApiClient` can be used to make network requests.  
-After the repository is created, it should be bound and used like described in the [DI section](#dependency-injection-and-containers).
+After the repository is created, it should be bound and used like described in
+the [DI section](#dependency-injection-and-containers).
 
 ---
 

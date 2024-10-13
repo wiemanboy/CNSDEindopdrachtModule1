@@ -73,6 +73,23 @@ class BoardServiceTest {
     }
 
     @Test
+    void updateTask() {
+        Board board = new BoardBuilder().build();
+        Task task = new TaskBuilder().build();
+        TaskList taskList = new TaskListBuilder().build();
+        board.addTaskList(taskList);
+        board.addTaskToTaskList(taskList, task);
+
+        Mockito.when(boardRepository.findById(Mockito.any())).thenReturn(Optional.of(board));
+
+        Board boardResult = boardService.updateTask(board.getId(), task.getId(), "title", "description");
+
+        assertEquals("title", boardResult.getTaskLists().getFirst().getTasks().getFirst().getTitle());
+        assertEquals("description", boardResult.getTaskLists().getFirst().getTasks().getFirst().getDescription());
+        Mockito.verify(boardRepository).save(Mockito.any());
+    }
+
+    @Test
     void addTaskToTaskList() {
         Board board = new BoardBuilder().build();
         TaskList taskList = new TaskListBuilder().build();
