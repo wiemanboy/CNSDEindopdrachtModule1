@@ -24,68 +24,69 @@ public class BoardController {
         return BoardDto.from(boardService.getAllBoards());
     }
 
-    @GetMapping("/{boardId}")
-    public BoardDto getBoard(@PathVariable UUID boardId) {
-        return BoardDto.from(boardService.getBoardById(boardId));
-    }
-
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public BoardDto createBoard(@RequestBody CreateBoardDto createBoardDto) {
         return BoardDto.from(boardService.createBoard(createBoardDto.title()));
     }
 
-    @PostMapping("/{boardId}/add-task-lists")
+    @GetMapping("/{boardId}")
+    public BoardDto getBoard(@PathVariable UUID boardId) {
+        return BoardDto.from(boardService.getBoardById(boardId));
+    }
+
+    @PostMapping("/{boardId}/collaborators/{collaboratorId}")
+    public BoardDto addCollaborator(@PathVariable UUID boardId, @PathVariable UUID collaboratorId) {
+        return BoardDto.from(boardService.addCollaborator(boardId, collaboratorId));
+    }
+
+    @PostMapping("/{boardId}/task-lists/")
     @ResponseStatus(HttpStatus.CREATED)
     public BoardDto addTaskList(@PathVariable UUID boardId, @RequestBody CreateTaskListDto createTaskListDto) {
         return BoardDto.from(boardService.addTaskList(boardId, createTaskListDto.title()));
     }
 
-    @PostMapping("/{boardId}/add-tasks")
+    @PostMapping("/{boardId}/task-lists/{taskListId}/tasks/")
     @ResponseStatus(HttpStatus.CREATED)
-    public BoardDto addTaskToTaskList(@PathVariable UUID boardId, @RequestBody CreateTaskDto createTaskListDto) {
+    public BoardDto addTaskToTaskList(@PathVariable UUID boardId, @PathVariable UUID taskListId, @RequestBody CreateTaskDto createTaskListDto) {
         return BoardDto.from(boardService.addTaskToTaskList(
                 boardId,
-                createTaskListDto.taskListId(),
+                taskListId,
                 createTaskListDto.title(),
                 createTaskListDto.description()
         ));
     }
+
+    @PutMapping("/{boardId}/task-lists/{taskListId}/tasks/{taskId}")
+    public BoardDto moveTask(@PathVariable UUID boardId, @PathVariable UUID taskListId, @PathVariable UUID taskId) {
+        return BoardDto.from(boardService.moveTask(boardId, taskId, taskListId));
+    }
+
     //TODO Create tests for endpoint
-    @PutMapping("/{boardId}/update-task")
-    public BoardDto updateTask(@PathVariable UUID boardId, @RequestBody UpdateTaskDto updateTaskDto) {
+    @PutMapping("/{boardId}/tasks/{taskId}")
+    public BoardDto updateTask(@PathVariable UUID boardId, @PathVariable UUID taskId, @RequestBody UpdateTaskDto updateTaskDto) {
         return BoardDto.from(boardService.updateTask(
                 boardId,
-                updateTaskDto.taskId(),
+                taskId,
                 updateTaskDto.title(),
                 updateTaskDto.description()
         ));
     }
 
-    @PutMapping("/{boardId}/move-task")
-    public BoardDto moveTask(@PathVariable UUID boardId, @RequestBody MoveTaskDto moveTaskDto) {
-        return BoardDto.from(boardService.moveTask(boardId, moveTaskDto.taskId(), moveTaskDto.targetTaskListId()));
+    @PostMapping("/{boardId}/tasks/{taskId}/tags/{tagId}")
+    public BoardDto addTagToTask(@PathVariable UUID boardId, @PathVariable UUID taskId, @PathVariable UUID tagId) {
+        return BoardDto.from(boardService.addTagToTask(boardId, taskId, tagId));
     }
 
-    @PostMapping("/{boardId}/add-tag")
-    public BoardDto addTagToTask(@PathVariable UUID boardId, @RequestBody AddTagDto addTagDto) {
-        return BoardDto.from(boardService.addTagToTask(boardId, addTagDto.taskId(), addTagDto.tagId()));
-    }
-
-    //TODO Create tests for endpoint
-    @PostMapping("/{boardId}/remove-tag")
-    public BoardDto removeTagFromTask(@PathVariable UUID boardId, @RequestBody RemoveTagDto removeTagDto) {
-        return BoardDto.from(boardService.removeTagFromTask(boardId, removeTagDto.taskId(), removeTagDto.tagId()));
-    }
-
-    @PostMapping("/{boardId}/add-collaborator")
-    public BoardDto addCollaborator(@PathVariable UUID boardId, @RequestBody AddCollaboratorDto addCollaboratorDto) {
-        return BoardDto.from(boardService.addCollaborator(boardId, addCollaboratorDto.collaboratorId()));
+    // TODO: Create tests for endpoint
+    @DeleteMapping("/{boardId}/tasks/{taskId}/tags/{tagId}")
+    public BoardDto removeTagFromTask(@PathVariable UUID boardId, @PathVariable UUID taskId, @PathVariable UUID tagId) {
+        return BoardDto.from(boardService.removeTagFromTask(boardId, taskId, tagId));
     }
 
     //TODO Create tests for endpoint
-    @PutMapping("/{boardId}/add-collaborator-to-task")
-    public BoardDto addCollaboratorToTask(@PathVariable UUID boardId, @RequestBody AddCollaboratorToTaskDto addCollaboratorToTaskDto) {
-        return BoardDto.from(boardService.addCollaboratorToTask(boardId, addCollaboratorToTaskDto.taskId(), addCollaboratorToTaskDto.collaboratorId()));
+    @PutMapping("/{boardId}/tasks/{taskId}/collaborators/{collaboratorId}")
+    public BoardDto addCollaboratorToTask(@PathVariable UUID boardId, @PathVariable UUID taskId, @PathVariable UUID collaboratorId) {
+        return BoardDto.from(boardService.addCollaboratorToTask(boardId, taskId, collaboratorId));
     }
 }

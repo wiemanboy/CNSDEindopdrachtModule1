@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class BoardCreateTaskListStepsDefinition {
 
-    private TestRestTemplate testRestTemplate = new TestRestTemplate();
+    private final TestRestTemplate testRestTemplate = new TestRestTemplate();
 
     private ResponseEntity<String> response;
 
@@ -28,6 +28,7 @@ public class BoardCreateTaskListStepsDefinition {
         ResponseEntity<String> response = testRestTemplate.postForEntity("http://localhost:8080/api/boards/", createBoardDto, String.class);
         String responseBody = response.getBody();
         assertThat(responseBody).contains("id");
+        assert responseBody != null;
         String idString = responseBody.substring(responseBody.indexOf("\"id\":\"") + 6, responseBody.indexOf("\",", responseBody.indexOf("\"id\":\"")));
         boardId = UUID.fromString(idString);
     }
@@ -35,7 +36,7 @@ public class BoardCreateTaskListStepsDefinition {
     @When("the client makes a POST request to \\/\\{boardId}\\/add-task-lists with the title of their task list")
     public void theClientMakesAPOSTRequestToBoardIdAddTaskListsWithTheTitleOfTheirTaskList() {
         CreateTaskListDto createTaskListDto = new CreateTaskListDto("My Task List");
-        response = testRestTemplate.postForEntity("http://localhost:8080/api/boards/" + boardId + "/add-task-lists", createTaskListDto, String.class);
+        response = testRestTemplate.postForEntity("http://localhost:8080/api/boards/" + boardId + "/task-lists/", createTaskListDto, String.class);
     }
 
     @Then("the client receives status code of {int} for their registration of the task list")
