@@ -16,11 +16,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class BoardCreateTaskForTaskListStepsDefinition {
 
-    private TestRestTemplate testRestTemplate = new TestRestTemplate();
+    private final TestRestTemplate testRestTemplate = new TestRestTemplate();
 
     private ResponseEntity<String> response;
 
@@ -33,11 +34,12 @@ public class BoardCreateTaskForTaskListStepsDefinition {
         CreateBoardDto createBoardDto = new CreateBoardDto("My Board");
         ResponseEntity<String> response = testRestTemplate.postForEntity("http://localhost:8080/api/boards/", createBoardDto, String.class);
         String responseBody = response.getBody();
+        assert responseBody != null;
         String idString = responseBody.substring(responseBody.indexOf("\"id\":\"") + 6, responseBody.indexOf("\",", responseBody.indexOf("\"id\":\"")));
         boardId = UUID.fromString(idString);
 
         CreateTaskListDto createTaskListDto = new CreateTaskListDto("My Task List");
-        ResponseEntity<String> response2 = testRestTemplate.postForEntity("http://localhost:8080/api/boards/" + boardId + "/add-task-lists", createTaskListDto, String.class);
+        ResponseEntity<String> response2 = testRestTemplate.postForEntity(format("http://localhost:8080/api/boards/%s/task-lists/", boardId), createTaskListDto, String.class);
         String responseBody2 = response2.getBody();
 
         JSONObject jsonObject = new JSONObject(responseBody2);
@@ -54,8 +56,8 @@ public class BoardCreateTaskForTaskListStepsDefinition {
 
     @When("the client makes a POST request to \\/\\{boardId}\\/add-tasks with the title of their task")
     public void theClientMakesAPOSTRequestToBoardIdAddTasksWithTheTitleOfTheirTask() {
-        CreateTaskDto createTaskDto = new CreateTaskDto(taskListId, "My Task", "My Task Description");
-        response = testRestTemplate.postForEntity("http://localhost:8080/api/boards/" + boardId + "/add-tasks", createTaskDto, String.class);
+        CreateTaskDto createTaskDto = new CreateTaskDto("My Task", "My Task Description");
+        response = testRestTemplate.postForEntity(format("http://localhost:8080/api/boards/%s/task-lists/%s/tasks/", boardId, taskListId), createTaskDto, String.class);
     }
 
     @Then("the client receives status code of {int} for their registration of the task")

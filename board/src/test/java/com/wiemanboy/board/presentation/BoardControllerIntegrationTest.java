@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
+import static java.lang.String.format;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -95,7 +96,7 @@ class BoardControllerIntegrationTest {
         Board board = boardRepository.save(new BoardBuilder().build());
         CreateTaskListDto createTaskListDto = new CreateTaskListDto("Task List 1");
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-task-lists")
+        mockMvc.perform(post(format("/api/boards/%s/task-lists/", board.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createTaskListDto)))
                 .andExpect(status().isCreated());
@@ -107,9 +108,9 @@ class BoardControllerIntegrationTest {
         TaskList taskList = new TaskList("Task List 1");
         board.addTaskList(taskList);
         board = boardRepository.save(board);
-        CreateTaskDto createTaskDto = new CreateTaskDto(taskList.getId(), "Task 1", "Description 1");
+        CreateTaskDto createTaskDto = new CreateTaskDto("Task 1", "Description 1");
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-tasks")
+        mockMvc.perform(post(format("/api/boards/%s/task-lists/%s/tasks/", board.getId(), taskList.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createTaskDto))
                 )
@@ -119,9 +120,9 @@ class BoardControllerIntegrationTest {
     @Test
     void addTaskToTaskListNotFound() throws Exception {
         Board board = boardRepository.save(new BoardBuilder().build());
-        CreateTaskDto createTaskDto = new CreateTaskDto(UUID.randomUUID(), "Task 1", "Description 1");
+        CreateTaskDto createTaskDto = new CreateTaskDto("Task 1", "Description 1");
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-tasks")
+        mockMvc.perform(post(format("/api/boards/%s/task-lists/%s/tasks/", board.getId(), UUID.randomUUID()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createTaskDto))
                 )
@@ -138,12 +139,8 @@ class BoardControllerIntegrationTest {
         board.addTaskList(taskList2);
         board.addTaskToTaskList(taskList1, task);
         board = boardRepository.save(board);
-        MoveTaskDto moveTaskDto = new MoveTaskDto(task.getId(), taskList2.getId());
 
-        mockMvc.perform(put("/api/boards/" + board.getId() + "/move-task")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(moveTaskDto))
-                )
+        mockMvc.perform(put(format("/api/boards/%s/task-lists/%s/tasks/%s", board.getId(), taskList2.getId(), task.getId())))
                 .andExpect(status().isOk());
     }
 
@@ -155,12 +152,9 @@ class BoardControllerIntegrationTest {
         board.addTaskList(taskList1);
         board.addTaskList(taskList2);
         board = boardRepository.save(board);
-        MoveTaskDto moveTaskDto = new MoveTaskDto(UUID.randomUUID(), taskList2.getId());
 
-        mockMvc.perform(put("/api/boards/" + board.getId() + "/move-task")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(moveTaskDto))
-                )
+        mockMvc.perform(put(format("/api/boards/%s/task-lists/%s/tasks/%s", board.getId(), taskList2.getId(), UUID.randomUUID())))
+
                 .andExpect(status().isNotFound());
     }
 
@@ -173,12 +167,8 @@ class BoardControllerIntegrationTest {
         board.addTaskToTaskList(taskList, task);
         board = boardRepository.save(board);
         Tag tag = tagRepository.save(new TagBuilder().build());
-        AddTagDto addTagDto = new AddTagDto(task.getId(), tag.getId());
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-tag")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(addTagDto))
-                )
+        mockMvc.perform(post(format("/api/boards/%s/tasks/%s/tags/%s", board.getId(), task.getId(), tag.getId())))
                 .andExpect(status().isOk());
     }
 
@@ -190,25 +180,17 @@ class BoardControllerIntegrationTest {
         board.addTaskList(taskList);
         board.addTaskToTaskList(taskList, task);
         board = boardRepository.save(board);
-        AddTagDto addTagDto = new AddTagDto(task.getId(), UUID.randomUUID());
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-tag")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(addTagDto))
-                )
+        mockMvc.perform(post(format("/api/boards/%s/tasks/%s/tags/%s", board.getId(), task.getId(), UUID.randomUUID())))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void addTagToTaskTagTaskNotFount() throws Exception {
+    void addTagToTaskTagTaskNotFound() throws Exception {
         Board board = boardRepository.save(new BoardBuilder().build());
         Tag tag = tagRepository.save(new TagBuilder().build());
-        AddTagDto addTagDto = new AddTagDto(UUID.randomUUID(), tag.getId());
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-tag")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(addTagDto))
-                )
+        mockMvc.perform(post(format("/api/boards/%s/tasks/%s/tags/%s", board.getId(), UUID.randomUUID(), tag.getId())))
                 .andExpect(status().isNotFound());
     }
 
@@ -216,15 +198,12 @@ class BoardControllerIntegrationTest {
     void addCollaborator() throws Exception {
         Board board = new BoardBuilder().build();
         board = boardRepository.save(board);
-        AddCollaboratorDto addCollaboratorDto = new AddCollaboratorDto(UUID.randomUUID());
+        UUID collaboratorId = UUID.randomUUID();
 
-        mockServer.expect(requestTo("http://localhost:8080/api/users/" + addCollaboratorDto.collaboratorId() + "/exists"))
+        mockServer.expect(requestTo(format("http://localhost:8080/api/users/%s/exists", collaboratorId)))
                 .andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
 
-        mockMvc.perform(post("/api/boards/" + board.getId() + "/add-collaborator")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(addCollaboratorDto))
-                )
+        mockMvc.perform(post(format("/api/boards/%s/collaborators/%s", board.getId(), collaboratorId)))
                 .andExpect(status().isOk());
     }
 }
