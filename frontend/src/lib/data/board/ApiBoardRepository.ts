@@ -13,21 +13,17 @@ class ApiBoardRepository implements BoardRepository {
 	}
 
 	async addCollaborator(boardId: string, collaboratorId: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/add-collaborators`, { collaboratorId });
+		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/collaborators/${collaboratorId}`);
 		return result.json();
 	}
 
 	async addTag(boardId: string, taskId: string, tagId: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/add-tag`, {
-			taskId,
-			tagId,
-		});
+		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/tasks/${taskId}/tags/${tagId}`);
 		return result.json();
 	}
 
 	async addTask(boardId: string, taskListId: string, title: string, description: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/add-tasks`, {
-			taskListId,
+		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/task-lists/${taskListId}/`, {
 			title,
 			description,
 		});
@@ -35,7 +31,7 @@ class ApiBoardRepository implements BoardRepository {
 	}
 
 	async addTaskList(boardId: string, title: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/add-task-lists`, { title });
+		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/task-lists/`, { title });
 		return result.json();
 	}
 
@@ -55,24 +51,17 @@ class ApiBoardRepository implements BoardRepository {
 	}
 
 	async moveTask(boardId: string, taskId: string, targetTaskListId: string): Promise<BoardDto> {
-		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/move-task`, {
-			taskId,
-			targetTaskListId,
-		});
+		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/task-lists/${targetTaskListId}/tasks/${taskId}`);
 		return result.json();
 	}
 
 	async removeTag(boardId: string, taskId: string, tagId: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/remove-tag`, {
-			taskId,
-			tagId,
-		});
+		const result = await this.apiClient.delete(`${this.baseUrl}/${boardId}/tasks/${taskId}/tags/${tagId}`);
 		return result.json();
 	}
 
 	async updateTask(boardId: string, taskId: string, title: string, description: string): Promise<BoardDto> {
-		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/update-task`, {
-			taskId,
+		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/tasks/${taskId}`, {
 			title,
 			description,
 		});
@@ -80,10 +69,7 @@ class ApiBoardRepository implements BoardRepository {
 	}
 
 	async addCollaboratorToTask(boardId: string, taskId: string, collaboratorId: string): Promise<BoardDto> {
-		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/add-collaborator-to-task`, {
-			taskId,
-			collaboratorId,
-		});
+		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/tasks/${taskId}/collaborators/${collaboratorId}`);
 		return result.json();
 	}
 }
