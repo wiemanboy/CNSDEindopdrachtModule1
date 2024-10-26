@@ -13,7 +13,7 @@ export default interface BoardRepository {
 
 	addTag(boardId: string, taskId: string, tagId: string): Promise<BoardDto>;
 
-	addCollaborator(boardId: string, userId: string): Promise<BoardDto>;
+	addCollaborator(boardId: string, collaboratorId: string): Promise<BoardDto>;
 
 	moveTask(boardId: string, taskId: string, targetTaskListId: string): Promise<BoardDto>;
 
@@ -21,5 +21,5 @@ export default interface BoardRepository {
 
 	updateTask(boardId: string, taskId: string, title: string, description: string): Promise<BoardDto>;
 	
-	addCollaboratorToTask(boardId: string, taskId: string, userId: string): Promise<BoardDto>;
+	addCollaboratorToTask(boardId: string, taskId: string, collaboratorId: string): Promise<BoardDto>;
 }

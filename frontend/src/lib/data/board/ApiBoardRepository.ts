@@ -12,8 +12,8 @@ class ApiBoardRepository implements BoardRepository {
 		this.apiClient = apiClient;
 	}
 
-	async addCollaborator(boardId: string, userId: string): Promise<BoardDto> {
-		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/add-collaborators`, { userId });
+	async addCollaborator(boardId: string, collaboratorId: string): Promise<BoardDto> {
+		const result = await this.apiClient.post(`${this.baseUrl}/${boardId}/add-collaborators`, { collaboratorId });
 		return result.json();
 	}
 
@@ -79,10 +79,10 @@ class ApiBoardRepository implements BoardRepository {
 		return result.json();
 	}
 
-	async addCollaboratorToTask(boardId: string, taskId: string, userId: string): Promise<BoardDto> {
+	async addCollaboratorToTask(boardId: string, taskId: string, collaboratorId: string): Promise<BoardDto> {
 		const result = await this.apiClient.put(`${this.baseUrl}/${boardId}/add-collaborator-to-task`, {
 			taskId,
-			userId,
+			collaboratorId,
 		});
 		return result.json();
 	}
